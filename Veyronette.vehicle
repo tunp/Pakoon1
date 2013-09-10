@@ -1,0 +1,187 @@
+[Properties]
+
+Name = Veyronette
+Image = ./Textures/Veyronette.tga
+FuelLocation = 0, 1.5, 0
+FuelDistance = 1.5
+
+[Geometry]
+
+RightDir = +X
+ForwardDir = +Z
+DownDir = -Y
+Scale = 0.0325
+
+[Part1]
+
+Shape = ./Models/Veyronette.obj
+Color = 1, 1, 1
+Ambient = 0.6
+Diffuse = 0.8
+Specular = 0.8
+Brilliance = 10
+Shiny = false
+Texture = ./Textures/EnvMapShiny.tga
+TextureMapping = EnvMap
+
+[Part2]
+
+Shape = ./Models/Veyronette_Roof.obj
+Color = 0.35, 0.35, 0.35
+Ambient = 1
+Diffuse = 1
+Specular = 1
+Brilliance = 10
+Texture = INT_TXTR_CHROME	
+TextureMapping = EnvMap
+
+[PartShadow]
+
+Shape = ./Models/VeyronetteShadow.obj
+
+[Body]
+
+BodyPoint1 = -1, 1.2, -0.15, 1, 0.8
+BodyPoint2 =  1, 1.2, -0.15, 1, 0.8
+BodyPoint3 = -1, -1.2, -0.15, 1, 0.8
+BodyPoint4 =  1, -1.2, -0.15, 1, 0.8
+BodyPoint5 = -0.9, 1.25, -0.6, 1, 0.8
+BodyPoint6 =  0.9, 1.25, -0.6, 1, 0.8
+BodyPoint7 = -0.45, -0.2, -1.25, 0.5, 0.8
+BodyPoint8 =  0.45, -0.2, -1.25, 0.5, 0.8
+BodyPoint9 = -0.6, -1.27, -0.95, 0.5, 0.8
+BodyPoint10 = 0.6, -1.27, -0.95, 0.5, 0.8
+BodyPoint11 = -0.5, -1.5, -0.2, 1, 0.8
+BodyPoint12 =  0.5, -1.5, -0.2, 1, 0.8
+BodyPoint13 = -0.9, -0.2, -0.2, 1, 0.8
+BodyPoint14 =  0.9, -0.2, -0.2, 1, 0.8
+;BodyPoint15 = 0, 1.5, -0.5, 1, 0.8
+BodyPoint15 = 0, 1.55, -0.2, 1, 0.8
+
+ForwardPoints = 3, 1, 4, 2
+RightPoints = 5, 6, 13, 14
+
+LiftPoint1 = 7
+LiftPoint2 = 9
+
+TotalMass = 1000.0
+
+[Aerodynamics]
+
+BodyPoint1  = 0.1, 0, 1,  0.51, 0.985,  0
+BodyPoint2  = -0.1, 0, 1,  0.51, 0.985,  0
+BodyPoint3  = 0.1, 0, 1, 0.51, 0.985,  0
+BodyPoint4  = -0.1, 0, 1, 0.51, 0.985,  0
+BodyPoint5  = -0.2, 0.12,  -1, 0.51, 0.985,  0
+BodyPoint6  = 0.2, 0.12,  -1, 0.51, 0.985,  0
+BodyPoint7  = 0, -0.1,  -1, 0.51, 0.985,  0
+BodyPoint8  = 0, -0.1,  -1, 0.51, 0.985,  0
+BodyPoint9  = 0, 0.1, -1, 0.51, 0.985,  0
+BodyPoint10 = 0, 0.1, -1, 0.51, 0.985,  0
+BodyPoint11 = 0, -1, 0, 0.51, 0.985,  0
+BodyPoint12 = 0, -1, 0, 0.51, 0.985,  0
+BodyPoint13 = -1, 0, 0, 0.51, 0.985,  0
+BodyPoint14 = 1, 0, 0, 0.51, 0.985,  0
+BodyPoint15 = 0, 1, -0.5, 0.05, 0.985,  0
+
+
+[Wheels]
+
+Wheel1Turn = Turns, 40, 1
+Wheel1Side = Left
+Wheel1Drive = 1
+Wheel1Brake = 1
+Wheel1Friction = 0.5
+Wheel1Radius = 0.32
+Wheel1ProfileHeight = 0.1
+Wheel1Width = 0.3
+Wheel1Style = OffRoad
+Wheel1SuspBodyPoint = 1
+;Wheel1SuspBasePoint = -1, 1.05, -1.8
+Wheel1SuspBasePoint = -1, 0.75, -1.8
+Wheel1SuspDir = 0, 0.3, 1
+Wheel1SuspRelaxedDistance = 1.95
+Wheel1SuspThrow = 1
+Wheel1SuspStiffness = 0.1
+Wheel1MinSusp = 0.07
+Wheel1MaxSusp = 0.3
+
+Wheel2Turn = Turns, 40, 1
+Wheel2Side = Right
+Wheel2Drive = 1
+Wheel2Brake = 1
+Wheel2Friction = 0.5
+Wheel2Radius = 0.32
+Wheel2ProfileHeight = 0.1
+Wheel2Width = 0.3
+Wheel2Style = OffRoad
+Wheel2SuspBodyPoint = 2
+Wheel2SuspBasePoint = 1, 0.75, -1.8
+Wheel2SuspDir = 0, 0.3, 1
+Wheel2SuspRelaxedDistance = 1.95
+Wheel2SuspThrow = 1
+Wheel2SuspStiffness = 0.1
+Wheel2MinSusp = 0.07
+Wheel2MaxSusp = 0.3
+
+Wheel3Turn = Fixed
+Wheel3Side = Left
+Wheel3Drive = 0.5
+Wheel3Brake = 1
+Wheel3Friction = 0.5
+Wheel3Radius = 0.32
+Wheel3ProfileHeight = 0.1
+Wheel3Width = 0.3
+Wheel3Style = OffRoad
+Wheel3SuspBodyPoint = 3
+;Wheel3SuspBasePoint = -1, -1, -1.8
+Wheel3SuspBasePoint = -1, -0.7, -1.8
+Wheel3SuspDir = 0, -0.3, 1
+Wheel3SuspRelaxedDistance = 1.95
+Wheel3SuspThrow = 1
+Wheel3SuspStiffness = 0.1
+Wheel3MinSusp = 0.07
+Wheel3MaxSusp = 0.3
+
+Wheel4Turn = Fixed
+Wheel4Side = Right
+Wheel4Drive = 0.5
+Wheel4Brake = 1
+Wheel4Friction = 0.5
+Wheel4Radius = 0.32
+Wheel4ProfileHeight = 0.1
+Wheel4Width = 0.3
+Wheel4Style = OffRoad
+Wheel4SuspBodyPoint = 4
+Wheel4SuspBasePoint = 1, -0.7, -1.8
+Wheel4SuspDir = 0, -0.3, 1
+Wheel4SuspRelaxedDistance = 1.95
+Wheel4SuspThrow = 1
+Wheel4SuspStiffness = 0.1
+Wheel4MinSusp = 0.07
+Wheel4MaxSusp = 0.3
+
+[Engine]
+
+HorsePowers = 125.0
+
+[Rotor]
+
+ExitPoint = 0, -0.3, -0.7
+ExitDir = 0, 0, -1
+BladeLength = 4.0
+BladeTipWidth = 0.3
+BodyPoint1 = 7, 0.475
+BodyPoint2 = 8, 0.475
+BodyPoint3 = 5, 0.025
+BodyPoint4 = 6, 0.025
+Effect = 1.0
+
+[Jet]
+
+ExitPoint = 0, -2, 0
+ExitDir = 0, -1, 0
+ExitDiameter = 0.5
+BodyPoint1 = 9, 0.5
+BodyPoint2 = 18, 0.5
+Effect = 1.0

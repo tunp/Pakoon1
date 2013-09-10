@@ -1,0 +1,58 @@
+; Scene file saved by Pakoon Scene Editor v1.ONE
+
+[Properties]
+
+ Name = Haven
+ Image = ./Textures/Haven.tga
+ GroundFriction = 0.5
+ Ground1Scaler = 0.0057
+ Ground2Scaler = 0.07
+ SkyTexture = ./Textures/skydetailed.tga
+ Ground1Texture = ./Textures/groundtexture.tga
+ Ground2Texture = ./Textures/groundtexture2.tga
+ EnvMapTexture = ./Textures/EnvMap.tga
+ Wind = 0.5
+
+[Geometry]
+
+ Origin = 335650944.000000, 408957056.000000, 0.000000
+ StartLocation = 0.000000, -40.000000, 0.000000
+
+[Delivery]
+
+ Order = 0, 2, 1
+ RandomOrderInUse = True
+
+[Object1]
+
+ Name = base
+ Type = Base
+ ObjectFile = ./Models/Base.object
+ Location = -12.0356, -34.23, -20.1334
+ ZRotation = -240
+ Scale = 0.120123
+ Shadow = True
+ ActiveRadius = 8.43651
+
+[Object2]
+
+ Name = ocean dude
+ Type = Client
+ ObjectFile = ./Models/EconoHut.object
+ Location = 371.304, -63.2786, -2.61271
+ ZRotation = 47
+ Scale = 0.03125
+ Shadow = False
+ ActiveRadius = 5.46372
+
+[Object3]
+
+ Name = inland dude
+ Type = Client
+ ObjectFile = ./Models/EconoHut.object
+ Location = -2643.35, 10.8897, -2.48502
+ ZRotation = 0
+ Scale = 0.0625
+ Shadow = False
+ ActiveRadius = 7.07692
+

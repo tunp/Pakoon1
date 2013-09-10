@@ -1,0 +1,23 @@
+[Properties]
+ CollisionDetection = Accurate
+
+[Geometry]
+
+ RightDir = +X
+ ForwardDir = +Z
+ DownDir = -Y
+ Scale = 0.5
+
+[Part1]
+	
+ Shape = ./Models/TerrainRamp.obj
+ CollisionShape = ./Models/TerrainRamp.obj
+ Color = 1.2, 1.2, 0.55
+ Ambient = 0.6
+ Diffuse = 0.8
+ Specular = 0.8
+ Brilliance = 1
+ Shading = Flat
+ Texture = ./Textures/GroundTexture.tga
+ TextureMapping = WrapAround, 0.05
+ Friction = 0.51

@@ -1,0 +1,70 @@
+; Scene file saved by Pakoon Scene Editor v1.ONE
+
+[Properties]
+
+ Name = Desert
+ Image = ./Textures/Desert.tga
+ GroundFriction = 0.85
+ Ground1Scaler = 0.0057
+ Ground2Scaler = 0.07
+ SkyTexture = ./Textures/skydetailed.tga
+ Ground1Texture = ./Textures/groundtexture.tga
+ Ground2Texture = ./Textures/groundtexture2.tga
+ EnvMapTexture = ./Textures/EnvMap.tga
+ Wind = 1.40000
+ Earthquakes = True
+
+[Geometry]
+
+ Origin = 1827400.000000, 3441000.000000, 0.000000
+ StartLocation = 0.000000, -40.000000, 0.000000
+
+[Delivery]
+
+ Order = 0, 2, 1
+ RandomOrderInUse = True
+
+[Object1]
+
+ Name = base
+ Type = Base
+ ObjectFile = ./Models/Base.object
+ Location = -13.1277, -40.3823, -107.188
+ ZRotation = 76
+ Scale = 0.115826
+ Shadow = True
+ ActiveRadius = 6.71076
+
+[Object2]
+
+ Name = simple dude
+ Type = Client
+ ObjectFile = ./Models/EconoHut.object
+ Location = 192.964, -2078.94, -92.3105
+ ZRotation = -40
+ Scale = 0.0625
+ Shadow = False
+ ActiveRadius = 8.02706
+
+[Object3]
+
+ Name = ditch dude
+ Type = Client
+ ObjectFile = ./Models/EconoHut.object
+ Location = -1359.63, 97.9756, -53.0666
+ ZRotation = -280
+ Scale = 0.0625
+ Shadow = False
+ ActiveRadius = 7.29137
+
+[Object4]
+
+ Name = Valley Dude
+ Type = Client
+ ObjectFile = ./Models/EconoHut.object
+ Location = -43.9562, 1288.31, -115.75
+ ZRotation = 0
+ Scale = 0.187969
+ Shadow = False
+ ActiveRadius = 21.5656
+

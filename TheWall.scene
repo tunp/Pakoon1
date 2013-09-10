@@ -1,0 +1,68 @@
+; Scene file saved by Pakoon Scene Editor v1.ONE
+
+[Properties]
+
+ Name = The wall
+ Image = ./Textures/TheWall.tga
+ GroundFriction = 0.35
+ Ground1Scaler = 0.0057
+ Ground2Scaler = 0.07
+ SkyTexture = ./Textures/skydetailed.tga
+ Ground1Texture = ./Textures/groundtexture.tga
+ Ground2Texture = ./Textures/groundtexture2.tga
+ EnvMapTexture = ./Textures/EnvMap.tga
+
+[Geometry]
+
+ Origin = -179180.000000, -129885.000000, 0.000000
+ StartLocation = 50.000000, 200.000000, 0.000000
+
+[Delivery]
+
+ Order = 0, 2, 1
+ RandomOrderInUse = True
+
+[Object1]
+
+ Name = highland dude
+ Type = Client
+ ObjectFile = ./Models/EconoHut.object
+ Location = 285.027, 832.091, -1254.45
+ ZRotation = -200
+ Scale = 0.0809535
+ Shadow = False
+ ActiveRadius = 10.2267
+
+[Object2]
+
+ Name = base
+ Type = Base
+ ObjectFile = ./Models/Base.object
+ Location = 188.113, 135.165, -1256.13
+ ZRotation = 74
+ Scale = 0.162455
+ Shadow = True
+ ActiveRadius = 11.7157
+
+[Object3]
+
+ Name = edge dude
+ Type = Client
+ ObjectFile = ./Models/EconoHut.object
+ Location = 558.415, 129.484, -1255.28
+ ZRotation = 0
+ Scale = 0.0625
+ Shadow = False
+ ActiveRadius = 9.44418
+
+[Object4]
+
+ Name = lowland dude
+ Type = Client
+ ObjectFile = ./Models/EconoHut.object
+ Location = -467.028, -2337.37, -8.82847
+ ZRotation = 19
+ Scale = 0.0625
+ Shadow = False
+ ActiveRadius = 11.7157
+

@@ -1,0 +1,112 @@
+; Scene file saved by Pakoon Scene Editor v1.ONE
+
+[Properties]
+
+ Name = Coastal
+ Image = ./Textures/coastal.tga
+ GroundFriction = 0.5
+ Ground1Scaler = 0.0017534
+ Ground2Scaler = 0.02
+ SkyTexture = ./Textures/skydetailed.tga
+ Ground1Texture = ./Textures/groundtexture.tga
+ Ground2Texture = ./Textures/groundtexture2.tga
+ EnvMapTexture = ./Textures/EnvMap.tga
+
+[Geometry]
+
+ Origin = 1861360.000000, 3281700.000000, 0.000000
+ StartLocation = -65.000000, -2.000000, 0
+
+[Delivery]
+
+ Order = 1, 2, 3
+ RandomOrderInUse = True
+
+[Object1]
+
+ Name = Stonehenge
+ Type = Other
+ ObjectFile = ./Models/Stonehenge.object
+ Location = -1.74355, 101.277, -10
+ ZRotation = 45
+ Scale = 1
+ Shadow = False
+ ActiveRadius = 1
+
+[Object2]
+
+ Name = base
+ Type = Base
+ ObjectFile = ./Models/Base.object
+ Location = -21.9767, 63.3514, -21.0358
+ ZRotation = -80
+ Scale = 0.360052
+ Shadow = True
+ ActiveRadius = 16.16
+
+[Object3]
+
+ Name = Gaso Dude
+ Type = Client
+ ObjectFile = ./Models/EconoHut.object
+ Location = 609.477, -520.578, -20.2472
+ ZRotation = 220
+ Scale = 0.319527
+ Shadow = False
+ ActiveRadius = 31.0589
+
+[Object4]
+
+ Name = stone5
+ Type = Other
+ ObjectFile = ./Models/Stonehenge.object
+ Location = -63.0355, -14.7885, -10.4647
+ ZRotation = -180
+ Scale = 1
+ Shadow = False
+ ActiveRadius = 1
+
+[Object5]
+
+ Name = stone3
+ Type = Other
+ ObjectFile = ./Models/Stonehenge.object
+ Location = -148.413, 101.571, -11.5647
+ ZRotation = -80
+ Scale = 0.838844
+ Shadow = False
+ ActiveRadius = 1
+
+[Object6]
+
+ Name = stone4
+ Type = Other
+ ObjectFile = ./Models/Stonehenge.object
+ Location = -134.799, 29.5967, -10.4647
+ ZRotation = -140
+ Scale = 1
+ Shadow = False
+ ActiveRadius = 1
+
+[Object7]
+
+ Name = ocean dude
+ Type = Client
+ ObjectFile = ./Models/EconoHut.object
+ Location = -935.322, 1465.06, -5.31962
+ ZRotation = -160
+ Scale = 0.180026
+ Shadow = False
+ ActiveRadius = 20.7241
+
+[Object8]
+
+ Name = river dude
+ Type = Client
+ ObjectFile = ./Models/EconoHut.object
+ Location = 3539.59, -48.3408, -4.01393
+ ZRotation = -11
+ Scale = 0.25
+ Shadow = False
+ ActiveRadius = 25.037
+

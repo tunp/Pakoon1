@@ -1,0 +1,79 @@
+[Properties]
+ CollisionDetection = Accurate
+
+[Geometry]
+
+ RightDir = +X
+ ForwardDir = +Z
+ DownDir = -Y
+ Scale = 0.5
+
+[Part1]
+	
+ Shape = ./Models/Stonehenge1rounded.obj
+ CollisionShape = ./Models/Stonehenge1.obj
+ Color = 1, 1, 1
+ Ambient = 0.6
+ Diffuse = 0.8
+ Specular = 0.8
+ Brilliance = 1
+ Shading = Smooth
+ Texture = ./Textures/Granite.tga
+ TextureMapping = WrapAround, 0.05
+ Friction = 0.51
+
+[Part2]
+	
+ Shape = ./Models/Stonehenge2rounded.obj
+ CollisionShape = ./Models/Stonehenge2.obj
+ Color = 1, 1, 1
+ Ambient = 0.8
+ Diffuse = 0.8
+ Specular = 0.8
+ Brilliance = 1
+ Shading = Smooth
+ Texture = ./Textures/Granite.tga
+ TextureMapping = WrapAround, 0.05
+ Friction = 0.51
+
+[Part3]
+	
+ Shape = ./Models/Stonehenge3rounded.obj
+ CollisionShape = ./Models/Stonehenge3.obj
+ Color = 1, 1, 1
+ Ambient = 0.8
+ Diffuse = 0.8
+ Specular = 0.8
+ Brilliance = 1
+ Shading = Smooth
+ Texture = ./Textures/Granite.tga
+ TextureMapping = WrapAround, 0.05
+ Friction = 0.51
+
+[Part4]
+	
+ Shape = ./Models/Stonehenge4rounded.obj
+ CollisionShape = ./Models/Stonehenge4.obj
+ Color = 1, 1, 1
+ Ambient = 0.6
+ Diffuse = 0.8
+ Specular = 0.8
+ Brilliance = 1
+ Shading = Smooth
+ Texture = ./Textures/Granite.tga
+ TextureMapping = WrapAround, 0.05
+ Friction = 0.51
+
+[Part5]
+	
+ Shape = ./Models/Stonehenge5rounded.obj
+ CollisionShape = ./Models/Stonehenge5.obj
+ Color = 1, 1, 1
+ Ambient = 0.8
+ Diffuse = 0.8
+ Specular = 0.8
+ Brilliance = 1
+ Shading = Smooth
+ Texture = ./Textures/Granite.tga
+ TextureMapping = WrapAround, 0.05
+ Friction = 0.51

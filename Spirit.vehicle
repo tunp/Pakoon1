@@ -1,0 +1,194 @@
+[Properties]
+
+Name = Spirit
+Image = ./Textures/Spirit.tga
+FuelLocation = 0, 2.5, 1
+FuelDistance = 2.0
+
+[Geometry]
+
+RightDir = +X
+ForwardDir = +Z
+DownDir = -Y
+Scale = 0.0325
+
+[Part1]
+
+Shape = ./Models/Spirit_Main.obj
+Color = 1, 1, 1
+Ambient = 0.4
+Diffuse = 0.6
+Specular = 0.6
+Brilliance = 10
+Shading = Flat
+Texture = ./Textures/RustySteel.tga
+TextureMapping = WrapAround, 1
+
+
+[Part2]
+
+Shape = ./Models/Spirit_Cowl.obj
+Color = 1, 1, 1
+Ambient = 0.4
+Diffuse = 1.0
+Specular = 1.0
+Brilliance = 10
+Texture = INT_TXTR_CHROME
+TextureMapping = EnvMap
+
+[Part3]
+
+Shape = ./Models/Spirit_Blacks.obj
+Color = 0.3, 0.3, 0.3
+Ambient = 0.4
+Diffuse = 0.6
+Specular = 0.6
+Brilliance = 10
+Shading = Flat
+Texture = INT_TXTR_NONE
+
+[PartShadow]
+
+Shape = ./Models/SpiritShadow.obj
+
+[PartElevator]
+
+Shape = ./Models/Spirit_Elevator.obj
+Color = 1, 1, 1
+Ambient = 0.4
+Diffuse = 0.6
+Specular = 0.6
+Brilliance = 10
+Shading = Flat
+Texture = ./Textures/RustySteel.tga
+TextureMapping = WrapAround, 1
+
+[PartRudder]
+
+Shape = ./Models/Spirit_Rudder.obj
+Color = 1, 1, 1
+Ambient = 0.4
+Diffuse = 0.6
+Specular = 0.6
+Brilliance = 10
+Shading = Flat
+Texture = ./Textures/RustySteel.tga
+TextureMapping = WrapAround, 1
+
+[PartPropeller]
+
+Shape = ./Models/Spirit_Propeller.obj
+Color = 1, 1, 1
+Ambient = 0.4
+Diffuse = 1.0
+Specular = 1.0
+Brilliance = 10
+Texture = INT_TXTR_CHROME
+TextureMapping = EnvMap
+
+[Body]
+
+BodyPoint1  = -4.3, 2, -0.7, 1, 0.8 // Wing tips
+BodyPoint2  = 4.3, 2, -0.7, 1, 0.8
+BodyPoint3  = -4.3, 0.4, -0.7, 0.5, 0.8
+BodyPoint4  = 4.3, 0.4, -0.7, 0.5, 0.8
+BodyPoint5  = 0, 3, -0.1, 2, 0.8 // propeller base
+BodyPoint6  = -1.3, 1.7, 1, 2, 0.8 // wheel left base
+BodyPoint7  = 1.3, 1.7, 1, 2, 0.8 // wheel right base
+BodyPoint8  = 0, -2.7, -0.3, 0.5, 0.8 // tail base
+BodyPoint9  = 0, -2.5, -1.3, 0.5, 0.8 // tail fin
+BodyPoint10 = -1, -2.7, -0.5, 0.5, 0.8 // tail left tip
+BodyPoint11 = 1, -2.7, -0.5, 0.5, 0.8 // tail right tip
+BodyPoint12 = 0, -1.5, -0.3, 0.5, 0.8 // Fuselage rear
+BodyPoint13 = 0, 1, -1, 0.5, 0.8 // Periscope
+BodyPoint14 = -2.5, 1, -0.8, 0.5, 0.8 // Wing Center left
+BodyPoint15 =  2.5, 1, -0.8, 0.5, 0.8 // Wing Center right
+
+ForwardPoints = 3, 1, 12, 5
+RightPoints = 1, 2, 3, 4
+
+LiftPoint1 = 1
+LiftPoint2 = 8
+
+TotalMass = 1000.0
+
+[Aerodynamics]
+
+BodyPoint1  = 0, 0, -1, 1,    0,  0.35
+BodyPoint2  = 0, 0, -1, 1,    0,  0.35
+BodyPoint3  = 0, 0, -1, 1,    0,  0.35
+BodyPoint4  = 0, 0, -1, 1,    0,  0.35
+BodyPoint5  = 0, 1,  0, 0.2,  1,  0
+BodyPoint6  = 0, 0,  1, 0.05,  1,  0
+BodyPoint7  = 0, 0,  1, 0.05,  1,  0
+BodyPoint8  = 0, 0,  1, 0.2,  1,  0
+BodyPoint9  = 1, 0,  0, 1,    0,  0
+BodyPoint10 = 0, 0, -1, 1,    0,  0
+BodyPoint11 = 0, 0, -1, 1,    0,  0
+BodyPoint12 = 1, 0,  0, 0.45,  0.25,  0
+BodyPoint13 = 0, 0, -1, 0.01, 1,  0
+BodyPoint14 = 0, 0, -1, 1,    0,  0.35
+BodyPoint15 = 0, 0, -1, 1,    0,  0.35
+
+[Wheels]
+
+Wheel1Turn = Fixed
+Wheel1Side = Left
+Wheel1Drive = 0
+Wheel1Brake = 0.07
+Wheel1Friction = 0.75
+Wheel1Radius = 0.32
+Wheel1ProfileHeight = 0.1
+Wheel1Width = 0.1
+Wheel1Style = ClassicAirplane
+Wheel1SuspBodyPoint = 6
+Wheel1SuspBasePoint = -1.3, 1.7, 0.6
+Wheel1SuspDir = 0, 0, 1
+Wheel1SuspRelaxedDistance = 0.5
+Wheel1SuspThrow = 0.6
+Wheel1SuspStiffness = 0.1
+
+Wheel2Turn = Fixed
+Wheel2Side = Right
+Wheel2Drive = 0
+Wheel2Brake = 0.07
+Wheel2Friction = 0.75
+Wheel2Radius = 0.32
+Wheel2ProfileHeight = 0.1
+Wheel2Width = 0.1
+Wheel2Style = ClassicAirplane
+Wheel2SuspBodyPoint = 7
+Wheel2SuspBasePoint = 1.3, 1.7, 0.6
+Wheel2SuspDir = 0, 0, 1
+Wheel2SuspRelaxedDistance = 0.5
+Wheel2SuspThrow = 0.6
+Wheel2SuspStiffness = 0.1
+
+Wheel3Turn = Turns, 40, -1
+Wheel3Side = Left
+Wheel3Drive = 0
+Wheel3Brake = 1
+Wheel3Friction = 0.75
+Wheel3Radius = 0.2
+Wheel3ProfileHeight = 0.1
+Wheel3Width = 0.05
+Wheel3Style = ClassicAirplane
+Wheel3SuspBodyPoint = 8
+Wheel3SuspBasePoint = 0, -2.7, -0.5
+Wheel3SuspDir = 0, 0, 1
+Wheel3SuspRelaxedDistance = 0.5
+Wheel3SuspThrow = 0.6
+Wheel3SuspStiffness = 0.1
+
+[Airplane]
+
+Rudder   = 8, 0, 1, 0, 1, 0,  0, 0, -2.71, 0.425, 0, 0, 1, 35, 0.35
+Elevator = 8, 0, 1, 0, 0, 0, -1, 0, -2.72, -0.12, 1, 0, 0, 25, 1, -0.4
+Ailerons = 4, 3, 0, 1, 0, 0, 0, -1, 1
+Propeller = 5, 0, 1, 0, 0, 2.95, 0.23, 0.5
+UseRudderOnTurns = 0.5
+Trailpoints = 3, 4
+
+[Engine]
+
+HorsePowers = 175.0

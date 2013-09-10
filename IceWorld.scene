@@ -1,0 +1,46 @@
+; Scene file saved by Pakoon Scene Editor v1.ONE
+
+[Properties]
+
+ Name = IceWorld
+ Image = ./Textures/IceWorld.tga
+ GroundFriction = 0.25
+ Ground1Scaler = 0.0057
+ Ground2Scaler = 0.07
+ SkyTexture = ./Textures/skydetailed.tga
+ Ground1Texture = ./Textures/Snowy1.tga
+ Ground2Texture = ./Textures/Snowy1.tga
+ EnvMapTexture = ./Textures/Iceworld_envmap.tga
+
+[Geometry]
+
+ Origin = 381056.000000, 281728.000000, 0.000000
+ StartLocation = 10.000000, -20.000000, -1526.000000
+
+[Delivery]
+
+ Order = 0, 2, 1
+ RandomOrderInUse = True
+
+[Object1]
+
+ Name = base
+ Type = Base
+ ObjectFile = ./Models/Base.object
+ Location = 94.9402, -30.0466, -1526.53
+ ZRotation = -180
+ Scale = 0.143684
+ Shadow = True
+ ActiveRadius = 11.0367
+
+[Object2]
+
+ Name = valley dude
+ Type = Client
+ ObjectFile = ./Models/EconoHut.object
+ Location = 1398.25, 1418.75, -1525.83
+ ZRotation = -104
+ Scale = 0.0968323
+ Shadow = False
+ ActiveRadius = 14.2954
+

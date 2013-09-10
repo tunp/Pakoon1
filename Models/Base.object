@@ -1,0 +1,23 @@
+[Properties]
+ CollisionDetection = Accurate
+
+[Geometry]
+
+ RightDir = +X
+ ForwardDir = +Z
+ DownDir = -Y
+ Scale = 0.5
+
+[Part1]
+	
+ Shape = ./Models/Base_vis.obj
+ CollisionShape = ./Models/Base_CollDet.obj
+ Color = 0.85, 0.95, 1
+ Ambient = 0.6
+ Diffuse = 0.8
+ Specular = 0.8
+ Brilliance = 1
+ Shading = Flat
+ Texture = INT_TXTR_BRICKS
+ TextureMapping = WrapAround, 0.03
+ Friction = 0.51

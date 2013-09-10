@@ -1,0 +1,37 @@
+[Properties]
+ CollisionDetection = Accurate
+
+[Geometry]
+
+ RightDir = +X
+ ForwardDir = +Z
+ DownDir = -Y
+ Scale = 1.0
+
+[Part1]
+	
+ Shape = ./Models/EconoHut1.obj
+ CollisionShape = ./Models/EconoHut1.obj
+ Color = 0.8, 1, 0.8
+ Ambient = 0.6
+ Diffuse = 0.8
+ Specular = 0.8
+ Brilliance = 1
+ Shading = Flat
+ Texture = INT_TXTR_BRICKS
+ TextureMapping = WrapAround, 0.02
+ Friction = 0.51
+
+[Part2]
+	
+ Shape = ./Models/EconoHut2.obj
+ CollisionShape = ./Models/EconoHut2.obj
+ Color = 0.8, 1, 0.8
+ Ambient = 0.6
+ Diffuse = 0.8
+ Specular = 0.8
+ Brilliance = 1
+ Shading = Flat
+ Texture = INT_TXTR_BRICKS
+ TextureMapping = WrapAround, 0.02
+ Friction = 0.51
