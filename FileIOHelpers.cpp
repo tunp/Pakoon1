@@ -15,7 +15,7 @@ using namespace std;
 
 map<string, map<string, string> > FileHelpers::readMapFromFile(string filename) {
 	map<string, map<string, string> > filemap;
-	map<string, string> *current_section;
+	map<string, string> *current_section = 0;
 	
 	ifstream ini_file(filename.c_str());
 	if (ini_file.is_open()) {
@@ -115,6 +115,8 @@ int FileHelpers::WriteKeyStringToINIFile(string  sSection,        // section nam
 		filemap[sSection][sKeyName] = sValue;
 		WriteMapToFile(filemap, sFilename);
 	}
+	
+	return 0;
 }
 
 int FileHelpers::GetKeyStringFromINIFile(string  sSection,        // section name

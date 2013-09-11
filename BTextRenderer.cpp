@@ -9,6 +9,10 @@
 #include "BTextures.h"
 #include "BSimulation.h"
 
+#include <algorithm>
+
+using namespace std;
+
 
 //*************************************************************************************************
 BTextRenderer::BTextRenderer() {
@@ -112,7 +116,7 @@ void BTextRenderer::DrawSmallTextAt(double dX,
 
   // Draw text char by char
   //for(int i = 0; i < min(nChars, sText.GetLength()); ++i) {
-  for(int i = 0; i < fmin(nChars, sText.length()); ++i) {
+  for(int i = 0; i < min(nChars, (int) sText.length()); ++i) {
     char c = sText[i];
     c = toupper(c);
     c -= ' ';

@@ -17,8 +17,10 @@ bool OpenGLHelpers::m_bMultiTexturing = false;
 
 
 // Multitexturing support functions
-//PFNGLMULTITEXCOORD2FARBPROC glMultiTexCoord2fARB = NULL;
-//PFNGLACTIVETEXTUREARBPROC   glActiveTextureARB = NULL;
+#ifdef _WIN32
+PFNGLMULTITEXCOORD2FARBPROC glMultiTexCoord2fARB = NULL;
+PFNGLACTIVETEXTUREARBPROC   glActiveTextureARB = NULL;
+#endif
 
 GLuint OpenGLHelpers::m_nDLTex = 0;
 
@@ -71,8 +73,10 @@ bool OpenGLHelpers::LoadExtensionFunctions() {
   //if(sExt.Find("GL_ARB_multitexture") != -1) {
   if(sExt.find("GL_ARB_multitexture") != -1) {
 	// Load extension functions
-	//glMultiTexCoord2fARB = (PFNGLMULTITEXCOORD2FARBPROC) wglGetProcAddress("glMultiTexCoord2fARB");
-	//glActiveTextureARB   = (PFNGLACTIVETEXTUREARBPROC)   wglGetProcAddress("glActiveTextureARB");
+	#ifdef _WIN32
+	glMultiTexCoord2fARB = (PFNGLMULTITEXCOORD2FARBPROC) wglGetProcAddress("glMultiTexCoord2fARB");
+	glActiveTextureARB   = (PFNGLACTIVETEXTUREARBPROC)   wglGetProcAddress("glActiveTextureARB");
+	#endif
 	m_bMultiTexturing = true;
 	// m_bMultiTexturing = false; // no need for multitexturing yet
 	return true;

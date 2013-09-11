@@ -105,7 +105,7 @@ void BMessages::Show(int nCharsPerLine,
     pNew->m_nCharHeight  = pNew->m_nCharPartWidth * 5 + pNew->m_nCharPartGap * 4;
     pNew->m_nCharGap     = pNew->m_nCharPartGap * 4;
     //pNew->m_nTotalWidth  = sText.GetLength() * pNew->m_nCharWidth + abs(sText.GetLength() - 1) * pNew->m_nCharGap;
-    pNew->m_nTotalWidth  = sText.length() * pNew->m_nCharWidth + abs(sText.length() - 1) * pNew->m_nCharGap;
+    pNew->m_nTotalWidth  = sText.length() * pNew->m_nCharWidth + abs((int)sText.length() - 1) * pNew->m_nCharGap;
   }
 }
 

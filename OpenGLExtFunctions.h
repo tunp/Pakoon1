@@ -9,10 +9,10 @@
 #include "GL/glext.h"
 
 // Multitexturing support functions
-//FIXME
-//extern PFNGLMULTITEXCOORD2FARBPROC glMultiTexCoord2fARB;
-//extern PFNGLACTIVETEXTUREARBPROC   glActiveTextureARB;
-
+#ifdef _WIN32
+extern PFNGLMULTITEXCOORD2FARBPROC glMultiTexCoord2fARB;
+extern PFNGLACTIVETEXTUREARBPROC   glActiveTextureARB;
+#endif
 
 // PAKOON! Game, Source Code and Developer Package Copyright
 // =========================================================

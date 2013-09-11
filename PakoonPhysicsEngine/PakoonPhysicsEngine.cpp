@@ -5,6 +5,9 @@
 //
 
 #include <ctime>
+#include <algorithm>
+
+using namespace std;
 
 //#include "..\stdafx.h"
 #include "PakoonPhysicsEngine.h"
@@ -476,7 +479,7 @@ void PPEC_BBaseVehicle::ApplyWheelForces(PPEC_Wheel *pWheel) {
     dFrictionFactor = g_cdBrakesFriction * pWheel->m_dBrakeFactor * pWheel->m_dFriction * pWheel->m_dGroundFriction;
     dFrictionFactor = BreakProfile(dFrictionFactor);
   } else {
-    dFrictionFactor = fmax(dFrictionFactor, (1.0 - pWheel->m_dTTT) * pWheel->m_dFriction * pWheel->m_dGroundFriction);
+    dFrictionFactor = max(dFrictionFactor, (1.0 - pWheel->m_dTTT) * pWheel->m_dFriction * pWheel->m_dGroundFriction);
   }
 
   // Apply ground oriented friction

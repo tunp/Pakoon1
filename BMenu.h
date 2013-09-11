@@ -10,6 +10,7 @@
 #include "BTextRenderer.h"
 #include "BUI.h"
 #include <string>
+#include <ctime>
 
 using namespace std;
 

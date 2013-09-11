@@ -2064,7 +2064,8 @@ double BSimulation::PointUnderGroundShadow(BVector vPoint, BVector& rvNormal) {
 
 //*****************************************************************************
 double BSimulation::PointUnderObjectsShadow(double& rdCandidate, BVector& rvPoint, BVector& rvNormal, bool& rbChanged) {
-  BObject *pCastObj;
+  //BObject *pCastObj;
+  BObject *pCastObj = 0;
   rbChanged = false;
   static BVector vUp(0, 0, -1);
   double dSmallestDepth = 999999.9;

@@ -6,6 +6,10 @@
 
 #pragma once
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include "BaseClasses.h"
 #include "PakoonPhysicsEngine/PakoonPhysicsEngine.h"
 #include "GL/gl.h"
