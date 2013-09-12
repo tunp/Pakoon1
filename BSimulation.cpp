@@ -295,6 +295,8 @@ void BSimulation::PrePaint() {
 
   // Update Max G-Force value
   m_dMaxGForce = m_vehicle.GetMaxGForce();
+  
+  UpdateEngineSound();
 }
 
 
