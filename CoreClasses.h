@@ -80,9 +80,11 @@ public:
   };
   inline void    ToUnitLength() {
     double dLen = Length();
-    m_dX *= 1.0 / dLen;
-    m_dY *= 1.0 / dLen;
-    m_dZ *= 1.0 / dLen;
+    if (dLen) {
+		m_dX *= 1.0 / dLen;
+		m_dY *= 1.0 / dLen;
+		m_dZ *= 1.0 / dLen;
+	}
   };
 };
 
