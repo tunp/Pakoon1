@@ -916,9 +916,7 @@ void CPakoon1View::DrawMenu(BMenu *pMenu) {
           // Check for owned vehicles
           string sVehicle;
           //sVehicle.Format(">%s<", pMenu->m_items[i].m_sText);
-			stringstream format;
-			format << ">" << pMenu->m_items[i].m_sText << "<";
-			sVehicle = format.str();          
+			sVehicle + ">" + pMenu->m_items[i].m_sText + "<";     
           //if(BGame::GetPlayer()->m_sValidVehicles.Find(sVehicle) == -1) {
           if(BGame::GetPlayer()->m_sValidVehicles.find(sVehicle) == -1) {
             pMenu->m_items[i].m_bDisabled = true;
@@ -1249,14 +1247,12 @@ void CPakoon1View::DrawMenu(BMenu *pMenu) {
         string sVehicle;
         pMenu->m_listMenu.GetSelectedItem(sVehicle);
         //sTmp.Format("%s?", sVehicle);
-		stringstream format;
-		format << sVehicle << "?";
-		sTmp = format.str();
+		sTmp = sVehicle + "?";
         //BUI::TextRenderer()->DrawTextAt(0, dCharHeight * 1, sTmp, BTextRenderer::TTextAlign::ALIGN_CENTER);
         BUI::TextRenderer()->DrawTextAt(0, dCharHeight * 1, sTmp, BTextRenderer::ALIGN_CENTER);
         //sTmp.Format("(It costs %.0lf. You have %.0lf)", BGame::m_dPurchasePrice, BGame::GetPlayer()->m_dCash);
-		format.str("");
-		format << "(It costs " << BGame::m_dPurchasePrice << ". You have " << BGame::GetPlayer()->m_dCash;
+		stringstream format;
+		format << "(It costs " << (int) BGame::m_dPurchasePrice << ". You have " << (int) BGame::GetPlayer()->m_dCash;
 		sTmp = format.str();
         //BUI::TextRenderer()->DrawTextAt(0, 0, sTmp, BTextRenderer::TTextAlign::ALIGN_CENTER);
         BUI::TextRenderer()->DrawTextAt(0, 0, sTmp, BTextRenderer::ALIGN_CENTER);
@@ -1272,14 +1268,12 @@ void CPakoon1View::DrawMenu(BMenu *pMenu) {
         string sVehicle;
         pMenu->m_listMenu.GetSelectedItem(sVehicle);
         //sTmp.Format("%s", sVehicle);
-		stringstream format;
-		format << sVehicle;
-		sTmp = format.str();
+		sTmp = sVehicle;
         //BUI::TextRenderer()->DrawTextAt(0, dCharHeight * 1, sTmp, BTextRenderer::TTextAlign::ALIGN_CENTER);
         BUI::TextRenderer()->DrawTextAt(0, dCharHeight * 1, sTmp, BTextRenderer::ALIGN_CENTER);
         //sTmp.Format("(It costs %.0lf. You have %.0lf)", BGame::m_dPurchasePrice, BGame::GetPlayer()->m_dCash);
-		format.str("");
-		format << "(It costs " << BGame::m_dPurchasePrice << ". You have " << BGame::GetPlayer()->m_dCash;
+		stringstream format;
+		format << "(It costs " << (int) BGame::m_dPurchasePrice << ". You have " << (int) BGame::GetPlayer()->m_dCash;
 		sTmp = format.str();
         //BUI::TextRenderer()->DrawTextAt(0, 0, sTmp, BTextRenderer::TTextAlign::ALIGN_CENTER);
         BUI::TextRenderer()->DrawTextAt(0, 0, sTmp, BTextRenderer::ALIGN_CENTER);
@@ -2558,7 +2552,7 @@ void CPakoon1View::CheckForPickup() {
         string sTmp;
         //sTmp.Format("Rotor fixed. Cost %.0lf$", dCost);
 		stringstream format;
-		format << "Rotor fixed. Cost " << dCost << "$";
+		format << "Rotor fixed. Cost " << (int) dCost << "$";
 		sTmp = format.str();
         BMessages::Show(40, "rotorfixed", sTmp, 3, false, 0.2, 0.5, 0.2);
       }
@@ -3010,7 +3004,7 @@ void CPakoon1View::DrawDashboard() {
     string sTmp;
     //sTmp.Format("%.0lf$", BGame::GetPlayer()->m_dCash);
     stringstream format;
-    format << BGame::GetPlayer()->m_dCash << "$";
+    format << (int) BGame::GetPlayer()->m_dCash << "$";
     sTmp = format.str();
     //BUI::TextRenderer()->DrawSmallTextAt(1.5, 128.0 - 66.0 - 1.5, sTmp, sTmp.GetLength(), BTextRenderer::TTextAlign::ALIGN_LEFT, 0, 0, 0, 0.3);
     BUI::TextRenderer()->DrawSmallTextAt(1.5, 128.0 - 66.0 - 1.5, sTmp, sTmp.length(), BTextRenderer::ALIGN_LEFT, 0, 0, 0, 0.3);
@@ -3019,6 +3013,7 @@ void CPakoon1View::DrawDashboard() {
     if(BGame::m_dPizzaTemp > 10.0) {
       //sTmp.Format("%.1lf", BGame::m_dPizzaTemp);
 		format.str("");
+		format.precision(3);
 		format << BGame::m_dPizzaTemp;
 		sTmp = format.str();
       //BUI::TextRenderer()->DrawSmallTextAt(1.5, 128.0 - 81.0 - 1.5, sTmp, sTmp.GetLength(), BTextRenderer::TTextAlign::ALIGN_LEFT, 0, 0, 0, 0.3);
@@ -3156,7 +3151,7 @@ void CPakoon1View::DrawTrackingTarget(BTrackingTarget *pTarget) {
   string sDist;
   //sDist.Format("%.0lf", dDist);
     stringstream format;
-    format << dDist;
+    format << (int) dDist;
     sDist = format.str();
   //double dX = (rectWnd.Width() - 512) / 2 + 224;
   double dX = (window_width - 512) / 2 + 224;
@@ -3765,13 +3760,15 @@ void CPakoon1View::DrawPickupInfo() {
   BUI::TextRenderer()->DrawTextAt(0, dCharHeight * 1.0,  sTmp, BTextRenderer::ALIGN_LEFT, 0.6, 1, 0.6, 1);
   //sTmp.Format("%.1lf NU", BGame::m_dLastDeliveryDistance);
     stringstream format;
+    format.precision(5);
+    format.unsetf(ios::floatfield);
     format << BGame::m_dLastDeliveryDistance << " NU";
     sTmp = format.str();
   //BUI::TextRenderer()->DrawTextAt(0, dCharHeight * 0,    sTmp, BTextRenderer::TTextAlign::ALIGN_LEFT, 0.6, 1, 0.6, 1);
   BUI::TextRenderer()->DrawTextAt(0, dCharHeight * 0,    sTmp, BTextRenderer::ALIGN_LEFT, 0.6, 1, 0.6, 1);
   //sTmp.Format("%.0lf $", BGame::GetMaxProfitFor(BGame::m_dLastDeliveryDistance, BGame::m_dPizzaTemp));
     format.str("");
-    format << BGame::GetMaxProfitFor(BGame::m_dLastDeliveryDistance, BGame::m_dPizzaTemp) << " $";
+    format << (int) BGame::GetMaxProfitFor(BGame::m_dLastDeliveryDistance, BGame::m_dPizzaTemp) << " $";
     sTmp = format.str();
   //BUI::TextRenderer()->DrawTextAt(0, dCharHeight * -1.0, sTmp, BTextRenderer::TTextAlign::ALIGN_LEFT, 0.6, 1, 0.6, 1);  
   BUI::TextRenderer()->DrawTextAt(0, dCharHeight * -1.0, sTmp, BTextRenderer::ALIGN_LEFT, 0.6, 1, 0.6, 1);  
@@ -3815,13 +3812,15 @@ void CPakoon1View::DrawDeliveryInfo() {
   BUI::TextRenderer()->DrawTextAt(0, dCharHeight * 1.0,  sTmp, BTextRenderer::ALIGN_LEFT, 0.6 * 0.5, 1 * 0.5, 0.6 * 0.5, 1);
   //sTmp.Format("%.1lf NU", BGame::m_dLastDeliveryDistance);
     stringstream format;
+    format.precision(5);
+    format.unsetf(ios::floatfield);
     format << BGame::m_dLastDeliveryDistance << " NU";
     sTmp = format.str();
   //BUI::TextRenderer()->DrawTextAt(0, dCharHeight * 0,    sTmp, BTextRenderer::TTextAlign::ALIGN_LEFT, 0.6 * 0.5, 1 * 0.5, 0.6 * 0.5, 1);
   BUI::TextRenderer()->DrawTextAt(0, dCharHeight * 0,    sTmp, BTextRenderer::ALIGN_LEFT, 0.6 * 0.5, 1 * 0.5, 0.6 * 0.5, 1);
   //sTmp.Format("%.0lf $", BGame::m_dLastProfit);
     format.str("");
-    format << BGame::m_dLastProfit << " $";
+    format << (int) BGame::m_dLastProfit << " $";
     sTmp = format.str();
   //BUI::TextRenderer()->DrawTextAt(0, dCharHeight * -1.0, sTmp, BTextRenderer::TTextAlign::ALIGN_LEFT, 0.6, 1, 0.6, 1);  
   BUI::TextRenderer()->DrawTextAt(0, dCharHeight * -1.0, sTmp, BTextRenderer::ALIGN_LEFT, 0.6, 1, 0.6, 1);  
