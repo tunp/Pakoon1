@@ -217,14 +217,19 @@ void BScene::PlaceObjectsOnTerrain(BTerrainBlock *pBlockSingle) {
       BVector vCenter = pBlockSingle->GetCenter();
       if(pBlockSingle->PointIsInsideBlock(m_pObjects[nObject].m_vCenter, m_pObjects[nObject].m_dRadius)) {
         // Check to see if object is there already
-        for(int i = 0; i < pBlockSingle->m_nObjects; ++i) {
+        bool object_found = false;
+        for(int i = 0; !object_found && i < pBlockSingle->m_nObjects; ++i) {
           if(pBlockSingle->m_objectArray[i] == &m_pObjects[nObject]) {
             // The object is already in the block's object list --> go to next object
-            continue;
+            //continue;
+            object_found = true;
           }
         }
-        pBlockSingle->m_objectArray[pBlockSingle->m_nObjects] = &m_pObjects[nObject];
-        ++pBlockSingle->m_nObjects;
+        
+        if (!object_found) {
+			pBlockSingle->m_objectArray[pBlockSingle->m_nObjects] = &m_pObjects[nObject];
+			++pBlockSingle->m_nObjects;
+		}
       }
     } else {
       // Place objects on every visible block

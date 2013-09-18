@@ -20,8 +20,7 @@ const int    cnBlockTiles    = 64;
 const double cdBlockTileSize = 10.0;
 const double cdWorldHemisphereRadius = 3000.0;
 const int    cnRequiredRenderPasses = 1;
-//const int    cnMaxObjectsInOneBlock = 10; 
-const int    cnMaxObjectsInOneBlock = 20; 
+const int    cnMaxObjectsInOneBlock = 10; 
 
 
 
