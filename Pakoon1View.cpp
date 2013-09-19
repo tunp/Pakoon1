@@ -1518,8 +1518,8 @@ void CPakoon1View::ReturnPressedOnCurrentMenu() {
         SoundModule::StopMenuMusic();
 
         // Write settings for graphics etc.
-        BGame::GetPlayer()->SaveStateFile();
-        Settings::WriteSettings(m_game.GetSimulation());
+        //BGame::GetPlayer()->SaveStateFile();
+        //Settings::WriteSettings(m_game.GetSimulation());
 
         //AfxGetMainWnd()->PostMessage(WM_COMMAND, ID_FILE_CLOSE, 0);
         setExit();
@@ -5580,7 +5580,19 @@ void CPakoon1View::DrawMouseCursor() {
 }
 
 
-
+void CPakoon1View::setExit() {
+	if(m_pDrawFunction == &CPakoon1View::OnDrawGame) {
+		BGame::GetPlayer()->m_dFuel = BGame::GetSimulation()->GetVehicle()->m_dFuel;
+		BGame::GetPlayer()->m_dKerosine = BGame::GetSimulation()->GetVehicle()->m_dKerosine;
+		BGame::GetPlayer()->SaveStateFile();
+		BGame::GetPlayer()->SaveCurrentSceneInfo();
+	}
+	
+	// Write settings for graphics etc.
+	BGame::GetPlayer()->SaveStateFile();
+	Settings::WriteSettings(m_game.GetSimulation());
+	exit = true;
+}
 
 /*
 

@@ -244,9 +244,7 @@ public:
 		this->window = window;
 	}
 	
-	void setExit() {
-		exit = true;
-	}
+	void setExit();
 	
 	bool isExit() {
 		return exit;
