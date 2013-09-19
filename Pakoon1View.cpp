@@ -916,7 +916,7 @@ void CPakoon1View::DrawMenu(BMenu *pMenu) {
           // Check for owned vehicles
           string sVehicle;
           //sVehicle.Format(">%s<", pMenu->m_items[i].m_sText);
-			sVehicle + ">" + pMenu->m_items[i].m_sText + "<";     
+			sVehicle = ">" + pMenu->m_items[i].m_sText + "<";
           //if(BGame::GetPlayer()->m_sValidVehicles.Find(sVehicle) == -1) {
           if(BGame::GetPlayer()->m_sValidVehicles.find(sVehicle) == -1) {
             pMenu->m_items[i].m_bDisabled = true;
