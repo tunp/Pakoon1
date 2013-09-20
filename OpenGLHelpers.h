@@ -10,6 +10,8 @@
 #include <windows.h>
 #endif
 
+#include <SDL2/SDL.h>
+
 #include "BaseClasses.h"
 #include "GL/gl.h"
 #include "GL/glu.h"
@@ -59,7 +61,7 @@ public:
   static void BindTexture(int nWidth, int nHeight, int nComponents, GLenum format, GLubyte *pStart, int nTexIndex, GLuint nTexName, bool bForceCreate = false);
   static void SetTexCoord(double x, double y);
   //static void DrawVeil(double dRed, double dGreen, double dBlue, double dAlpha, CRect &rectWnd);
-  static void DrawVeil(double dRed, double dGreen, double dBlue, double dAlpha);
+  static void DrawVeil(double dRed, double dGreen, double dBlue, double dAlpha, SDL_Rect &rectWnd);
 
 };
 

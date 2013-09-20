@@ -3,6 +3,8 @@
 
 #include <cstring>
 
+#include <SDL2/SDL.h>
+
 //#include "stdafx.h"
 #include "BServiceWnd.h"
 #include "OpenGLHelpers.h"
@@ -38,7 +40,7 @@ BServiceWnd::~BServiceWnd() {
 void BServiceWnd::AddChar(char c, double dR, double dG, double dB) {
 
   //if(c == VK_BACK) {
-  if(c == 0x08) {
+  if(c == SDLK_BACKSPACE) {
     // Eat one character
     if((m_nCursor > 0) && (m_nCursor > m_nCommandStart)) {
       m_nCursor -= 1;
@@ -48,14 +50,16 @@ void BServiceWnd::AddChar(char c, double dR, double dG, double dB) {
   }
 
   //if(c == VK_RETURN) {
-  if(c == 0x0a) { //näytti oikeesti olevan 0x0c
+  if(c == SDLK_RETURN) {
     // Issue command
     //CString sCommand;
     string sCommand;
     if(m_nCommandStart < 0) {
       m_nCommandStart = 0;
     }
-    //sCommand.Format("%.*s", m_nCursor - m_nCommandStart, m_sText + m_nCommandStart); //FIXME
+    //sCommand.Format("%.*s", m_nCursor - m_nCommandStart, m_sText + m_nCommandStart);
+    string valText = m_sText;
+    sCommand = valText.substr(m_nCommandStart, m_nCursor - m_nCommandStart);
     Newline();
     m_bPrompting = false;
     BGame::Command()->Run(sCommand);

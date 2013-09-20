@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include <SDL2/SDL.h>
+
 #include "BaseClasses.h"
 #include "BUI.h"
 #include <string>
@@ -29,9 +31,6 @@ class BSceneEditor {
   void FetchAllObjects();
 
 public:
-	int window_width;
-	int window_height;
-
   string          m_sActiveObject;
   string          m_sObjectType;
   string          m_sObjectShadow;
@@ -60,7 +59,7 @@ public:
   void Deactivate();
   bool IsActive();
   //void Draw(CRect &rectWnd);
-  void Draw();
+  void Draw(SDL_Rect &rectWnd);
   void HighlightActiveObject();
   void AdvancePhase();
   void CancelPhase();

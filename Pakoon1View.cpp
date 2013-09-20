@@ -664,7 +664,6 @@ void CPakoon1View::OnDrawCurrentMenu() {
 
   glClearColor(0, 0, 0, 0);
 
-	//FIXME
   /*if(m_hCursor) {
     ::SetCursor(m_hCursor);
   }
@@ -675,6 +674,7 @@ void CPakoon1View::OnDrawCurrentMenu() {
 
   CRect rectWnd;
   GetClientRect(&rectWnd);*/
+  SDL_ShowCursor(0);
 
   // Init OpenGL
   glDrawBuffer(GL_BACK);
@@ -1606,7 +1606,8 @@ void CPakoon1View::ReturnPressedOnCurrentMenu() {
     m_pKeyDownFunction = &CPakoon1View::OnKeyDownGame;
     m_game.m_bFadingIn = true;
     m_game.m_clockFadeStart = clock();
-    //ShowCursor(FALSE); //FIXME
+    //ShowCursor(FALSE);
+    SDL_ShowCursor(0);
     //Invalidate();
   }
 }
@@ -1696,7 +1697,8 @@ void CPakoon1View::CancelPressedOnCurrentMenu() {
           m_pDrawFunction = &CPakoon1View::OnDrawGame;
           m_game.m_bFadingIn = true;
           m_game.m_clockFadeStart = clock();
-          //ShowCursor(FALSE); //FIXME
+          //ShowCursor(FALSE);
+          SDL_ShowCursor(0);
         } else {
           StartMenuScroll(SCROLL_RIGHT);
           BGame::m_pMenuPrevious = BGame::m_pMenuCurrent;
@@ -2065,7 +2067,11 @@ void CPakoon1View::OnDrawGame() {
 
     // Scene editor stuff
     if(m_game.GetSceneEditor()->IsActive()) {
-      //m_game.GetSceneEditor()->Draw(m_rectWnd); //FIXME
+      //m_game.GetSceneEditor()->Draw(m_rectWnd);
+      SDL_Rect rectWnd;
+      rectWnd.w = window_width;
+      rectWnd.h = window_height;
+      m_game.GetSceneEditor()->Draw(rectWnd);
     }
 
     // If something requires attention, draw a faint veil
@@ -2075,7 +2081,11 @@ void CPakoon1View::OnDrawGame() {
        m_game.m_bShowQuickHelp || 
        m_game.m_bShowCancelQuestion || 
        m_game.m_bFueling) {
-      //OpenGLHelpers::DrawVeil(0.6, 0.6, 1, 0.5, m_rectWnd); //FIXME
+      //OpenGLHelpers::DrawVeil(0.6, 0.6, 1, 0.5, m_rectWnd);
+      SDL_Rect rectWnd;
+      rectWnd.w = window_width;
+      rectWnd.h = window_height;
+      OpenGLHelpers::DrawVeil(0.6, 0.6, 1, 0.5, rectWnd);
     }
 
     if(BGame::m_bPickupStartInProgress) {
@@ -4644,7 +4654,8 @@ void CPakoon1View::OnKeyDownGameMenu(int nChar, int nRepCnt, int nFlags) {
           BGame::GetPlayer()->m_dKerosine = BGame::GetSimulation()->GetVehicle()->m_dKerosine;
           BGame::GetPlayer()->SaveStateFile();
           BGame::GetPlayer()->SaveCurrentSceneInfo();
-          //ShowCursor(FALSE); //FIXME
+          //ShowCursor(FALSE);
+          SDL_ShowCursor(0);
           m_nMenuTime += BGame::ContinueSimulation();
           m_game.m_bShowGameMenu = false;
           BGame::m_bMenuMode = true;
@@ -4659,22 +4670,32 @@ void CPakoon1View::OnKeyDownGameMenu(int nChar, int nRepCnt, int nFlags) {
           //InvalidateRect(NULL); 
 
           // Save log info
-          //FIXME
-          /*{
+          {
+			stringstream outputStream;
             BGame::MyAfxMessageBox("------------------------------------");
             BGame::MyAfxMessageBox("EXITING SCENE");
             string sLogInfo;
-            sLogInfo.Format("Vehicle: %s", BGame::GetSimulation()->GetVehicle()->m_sName);
+            //sLogInfo.Format("Vehicle: %s", BGame::GetSimulation()->GetVehicle()->m_sName);
+            sLogInfo = "Vehicle: " + BGame::GetSimulation()->GetVehicle()->m_sName;
             BGame::MyAfxMessageBox(sLogInfo);
-            sLogInfo.Format("Scene: %s", BGame::GetSimulation()->GetScene()->m_sName);
+            //sLogInfo.Format("Scene: %s", BGame::GetSimulation()->GetScene()->m_sName);
+            sLogInfo = "Scene: " + BGame::GetSimulation()->GetScene()->m_sName;
             BGame::MyAfxMessageBox(sLogInfo);
-            sLogInfo.Format("Screen: %d*%d*%d @ %dHz", BGame::m_nDispWidth, BGame::m_nDispHeight, BGame::m_nDispBits, BGame::m_nDispHz);
+            //sLogInfo.Format("Screen: %d*%d*%d @ %dHz", BGame::m_nDispWidth, BGame::m_nDispHeight, BGame::m_nDispBits, BGame::m_nDispHz);
+            outputStream << "Screen: " << BGame::m_nDispWidth << "*" << BGame::m_nDispHeight << "*" << BGame::m_nDispBits << " @ " << BGame::m_nDispHz << "Hz";
+            sLogInfo = outputStream.str();
             BGame::MyAfxMessageBox(sLogInfo);
-            sLogInfo.Format("Terrain: %d", BGame::m_nTerrainResolution);
+            //sLogInfo.Format("Terrain: %d", BGame::m_nTerrainResolution);
+            outputStream.str("");
+            outputStream << "Terrain: " << BGame::m_nTerrainResolution;
+            sLogInfo = outputStream.str();
             BGame::MyAfxMessageBox(sLogInfo);
-            sLogInfo.Format("Effects: dust=%d water=%d", BGame::m_nDustAndClouds, BGame::m_nWaterSurface);
+            //sLogInfo.Format("Effects: dust=%d water=%d", BGame::m_nDustAndClouds, BGame::m_nWaterSurface);
+            outputStream.str("");
+            outputStream << "Effects: dust=" << BGame::m_nDustAndClouds << " water=" << BGame::m_nWaterSurface;
+            sLogInfo = outputStream.str();
             BGame::MyAfxMessageBox(sLogInfo);
-            sLogInfo.Format("FPS: AVE=%.2lf, Last10=%.1lf %.1lf %.1lf %.1lf %.1lf %.1lf %.1lf %.1lf %.1lf %.1lf ", 
+            /*sLogInfo.Format("FPS: AVE=%.2lf, Last10=%.1lf %.1lf %.1lf %.1lf %.1lf %.1lf %.1lf %.1lf %.1lf %.1lf ", 
                             g_dRate,
                             g_d10LastFPS[0],
                             g_d10LastFPS[1],
@@ -4685,9 +4706,22 @@ void CPakoon1View::OnKeyDownGameMenu(int nChar, int nRepCnt, int nFlags) {
                             g_d10LastFPS[6],
                             g_d10LastFPS[7],
                             g_d10LastFPS[8],
-                            g_d10LastFPS[9]);
+                            g_d10LastFPS[9]);*/
+            outputStream.str("");
+            outputStream << "FPS: AVE=" << g_dRate << ", Last10=" <<
+                            g_d10LastFPS[0] << " " <<
+                            g_d10LastFPS[1] << " " <<
+                            g_d10LastFPS[2] << " " <<
+                            g_d10LastFPS[3] << " " <<
+                            g_d10LastFPS[4] << " " <<
+                            g_d10LastFPS[5] << " " <<
+                            g_d10LastFPS[6] << " " <<
+                            g_d10LastFPS[7] << " " <<
+                            g_d10LastFPS[8] << " " <<
+                            g_d10LastFPS[9];
+            sLogInfo = outputStream.str();
             BGame::MyAfxMessageBox(sLogInfo);
-          }*/
+          }
 
           // Start menu music
           SoundModule::StopEngineSound();

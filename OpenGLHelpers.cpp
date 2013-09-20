@@ -376,16 +376,19 @@ void OpenGLHelpers::SetTexCoord(double x, double y) {
 
 
 //void OpenGLHelpers::DrawVeil(double dRed, double dGreen, double dBlue, double dAlpha, CRect &rectWnd) {
-void OpenGLHelpers::DrawVeil(double dRed, double dGreen, double dBlue, double dAlpha) {
+void OpenGLHelpers::DrawVeil(double dRed, double dGreen, double dBlue, double dAlpha, SDL_Rect &rectWnd) {
   OpenGLHelpers::SetColorFull(dRed, dGreen, dBlue, dAlpha);
   glDisable(GL_TEXTURE_2D);
 
-  /*glBegin(GL_TRIANGLE_STRIP);
+  glBegin(GL_TRIANGLE_STRIP);
   glVertex3f(0, 0, 0);
-  glVertex3f(0, rectWnd.Height(), 0);
-  glVertex3f(rectWnd.Width(), 0, 0);
-  glVertex3f(rectWnd.Width(), rectWnd.Height(), 0);
-  glEnd();*/
+  //glVertex3f(0, rectWnd.Height(), 0);
+  glVertex3f(0, rectWnd.h, 0);
+  //glVertex3f(rectWnd.Width(), 0, 0);
+  glVertex3f(rectWnd.w, 0, 0);
+  //glVertex3f(rectWnd.Width(), rectWnd.Height(), 0);
+  glVertex3f(rectWnd.w, rectWnd.h, 0);
+  glEnd();
 }
 
 

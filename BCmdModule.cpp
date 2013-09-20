@@ -321,7 +321,7 @@ void BCmdModule::Run(string sCommand) {
     //if(nParamStart < sCommand.GetLength()) {
     if(nParamStart < sCommand.length()) {
       //sParams = LPCTSTR(sCommand) + nParamStart;
-      //sParams = sCommand + nParamStart; //FIXME
+      sParams = sCommand.substr(nParamStart);
     }
     //if(pCommand->m_sCommand.Compare("HELP") == 0) {
     if(pCommand->m_sCommand.compare("HELP") == 0) {

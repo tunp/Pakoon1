@@ -67,7 +67,7 @@ void BSceneEditor::Deactivate() {
 
 //*****************************************************************************
 //void BSceneEditor::Draw(CRect &rectWnd) {
-void BSceneEditor::Draw() {
+void BSceneEditor::Draw(SDL_Rect &rectWnd) {
 
   // Always draw the "Scene Editor Mode" indicator
   OpenGLHelpers::SwitchToTexture(0);
@@ -79,7 +79,7 @@ void BSceneEditor::Draw() {
   OpenGLHelpers::SetColorFull(dAlpha / 2, dAlpha / 2, 1, 1);
   glPushMatrix();
   //glTranslated(30, rectWnd.Height() - 70.0, 0);
-  glTranslated(30, window_height - 70.0, 0);
+  glTranslated(30, rectWnd.h - 70.0, 0);
 
   glBegin(GL_TRIANGLE_STRIP);
   OpenGLHelpers::SetTexCoord(255.0 / 512.0, (512.0 - 32.0) / 512.0);   glVertex3f(0, 0, 0);
@@ -93,66 +93,66 @@ void BSceneEditor::Draw() {
   // Phase-specific stuff
   switch(m_phase) {
     case SELECTING_SCENE_OBJECT:
-      //OpenGLHelpers::DrawVeil(0, 0, 0.25, 0.5, rectWnd); //FIXME
+      OpenGLHelpers::DrawVeil(0, 0, 0.25, 0.5, rectWnd);
       //BGame::GetSimulation()->GetScene()->m_sellistSceneObjects.DrawAt(rectWnd.Width() / 2.0,
-      BGame::GetSimulation()->GetScene()->m_sellistSceneObjects.DrawAt(window_width / 2.0,
+      BGame::GetSimulation()->GetScene()->m_sellistSceneObjects.DrawAt(rectWnd.w / 2.0,
                                                                        //rectWnd.Height() / 2.0,
-                                                                       window_height / 2.0,
+                                                                       rectWnd.h / 2.0,
                                                                        //BTextRenderer::TTextAlign::ALIGN_CENTER);
                                                                        BTextRenderer::ALIGN_CENTER);
       break;
     case SELECTING_SCENE_OBJECT_TO_DELETE:
-      //OpenGLHelpers::DrawVeil(0.25, 0, 0, 0.5, rectWnd); //FIXME
+      OpenGLHelpers::DrawVeil(0.25, 0, 0, 0.5, rectWnd);
       //BGame::GetSimulation()->GetScene()->m_sellistSceneObjects.DrawAt(rectWnd.Width() / 2.0,
-      BGame::GetSimulation()->GetScene()->m_sellistSceneObjects.DrawAt(window_width / 2.0,
+      BGame::GetSimulation()->GetScene()->m_sellistSceneObjects.DrawAt(rectWnd.w / 2.0,
                                                                        //rectWnd.Height() / 2.0,
-                                                                       window_height / 2.0,
+                                                                       rectWnd.h / 2.0,
                                                                        //BTextRenderer::TTextAlign::ALIGN_CENTER);
                                                                        BTextRenderer::ALIGN_CENTER);
       break;
     case ASKING_OBJECT_NAME:
     case ASKING_SCENE_DISPLAY_NAME:
     case ASKING_SCENE_FILENAME:
-      //OpenGLHelpers::DrawVeil(0, 0, 0.25, 0.5, rectWnd); //FIXME
+      OpenGLHelpers::DrawVeil(0, 0, 0.25, 0.5, rectWnd);
       //m_edit.DrawAt(rectWnd.Width() / 2.0,
-      m_edit.DrawAt(window_width / 2.0,
+      m_edit.DrawAt(rectWnd.w / 2.0,
                     //rectWnd.Height() / 2.0,
-                    window_height / 2.0,
+                    rectWnd.h / 2.0,
                     true);
       break;
     case SELECTING_OBJECT_TYPE:
-      //OpenGLHelpers::DrawVeil(0, 0, 0.25, 0.5, rectWnd); //FIXME
+      OpenGLHelpers::DrawVeil(0, 0, 0.25, 0.5, rectWnd);
       //m_sellistObjectType.DrawAt(rectWnd.Width() / 2.0,
-      m_sellistObjectType.DrawAt(window_width / 2.0,
+      m_sellistObjectType.DrawAt(rectWnd.w / 2.0,
                                  //rectWnd.Height() / 2.0,
-                                 window_height / 2.0,
+                                 rectWnd.h / 2.0,
                                  //BTextRenderer::TTextAlign::ALIGN_CENTER);
                                  BTextRenderer::ALIGN_CENTER);
       break;
     case SELECTING_OBJECT_SHADOW:
-      //OpenGLHelpers::DrawVeil(0, 0, 0.25, 0.5, rectWnd); //FIXME
+      OpenGLHelpers::DrawVeil(0, 0, 0.25, 0.5, rectWnd);
       //m_sellistObjectShadow.DrawAt(rectWnd.Width() / 2.0,
-      m_sellistObjectShadow.DrawAt(window_width / 2.0,
+      m_sellistObjectShadow.DrawAt(rectWnd.w / 2.0,
                                    //rectWnd.Height() / 2.0,
-                                   window_height / 2.0,
+                                   rectWnd.h / 2.0,
                                    //BTextRenderer::TTextAlign::ALIGN_CENTER);
                                    BTextRenderer::ALIGN_CENTER);
       break;
     case SELECTING_OBJECT_FILE:
-      //OpenGLHelpers::DrawVeil(0, 0, 0.25, 0.5, rectWnd); //FIXME
+      OpenGLHelpers::DrawVeil(0, 0, 0.25, 0.5, rectWnd);
       //m_sellistAllObjects.DrawAt(rectWnd.Width() / 2.0,
-      m_sellistAllObjects.DrawAt(window_width / 2.0,
+      m_sellistAllObjects.DrawAt(rectWnd.w / 2.0,
                                  //rectWnd.Height() / 2.0,
-                                 window_height / 2.0,
+                                 rectWnd.h / 2.0,
                                  //BTextRenderer::TTextAlign::ALIGN_CENTER);
                                  BTextRenderer::ALIGN_CENTER);
       break;
     case OVERWRITE_SCENE_FILE_QUESTION:
-      //OpenGLHelpers::DrawVeil(0, 0, 0.25, 0.5, rectWnd); //FIXME
+      OpenGLHelpers::DrawVeil(0, 0, 0.25, 0.5, rectWnd);
       //m_sellistOverwrite.DrawAt(rectWnd.Width() / 2.0,
-      m_sellistOverwrite.DrawAt(window_width / 2.0,
+      m_sellistOverwrite.DrawAt(rectWnd.w / 2.0,
                                 //rectWnd.Height() / 2.0,
-                                window_height / 2.0,
+                                rectWnd.h / 2.0,
                                 //BTextRenderer::TTextAlign::ALIGN_CENTER);
                                 BTextRenderer::ALIGN_CENTER);
       break;
@@ -171,7 +171,7 @@ void BSceneEditor::Draw() {
 
   glPushMatrix();
   //glTranslated(30, rectWnd.Height() - 70.0, 0);
-  glTranslated(30, window_height - 70.0, 0);
+  glTranslated(30, rectWnd.h - 70.0, 0);
 
   double dColor = 1.0;
   if((m_phase == BASIC) || (m_phase == MOVING_OBJECT)) {
