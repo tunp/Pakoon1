@@ -36,6 +36,9 @@ int main(int argc, char **argv) {
 			SDL_Point point;
 			if(event.type == SDL_KEYDOWN) {
 				pakoon1.OnKeyDown(event.key.keysym.sym, 0, 0);
+				if (event.key.keysym.sym == SDLK_RETURN || event.key.keysym.sym == SDLK_BACKSPACE) {
+					pakoon1.OnChar(event.key.keysym.sym, 0, 0);
+				}
 			} else if (event.type == SDL_KEYUP) {
 				pakoon1.OnKeyUp(event.key.keysym.sym, 0, 0);
 			} else if (event.type == SDL_MOUSEBUTTONDOWN) {
@@ -56,6 +59,9 @@ int main(int argc, char **argv) {
 				pakoon1.OnMouseMove(point);
 			} else if (event.type == SDL_QUIT) {
 				pakoon1.setExit();
+			} else if (event.type == SDL_TEXTINPUT) {
+				//FIXME handle full text
+				pakoon1.OnChar((int) event.text.text[0], 0, 0);
 			}
 		}
 	}

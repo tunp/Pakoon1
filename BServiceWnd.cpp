@@ -189,7 +189,7 @@ void BServiceWnd::DrawTexts() {
   int nCurX = m_nCursor % 41;
   int nCurY = m_nCursor / 41;
   glTranslated(xSize * nCurX, -ySize * nCurY, 0);
-  clock_t clockNow = clock();
+  clock_t clockNow = SDL_GetTicks();
   OpenGLHelpers::SetColorFull(0, 
                               1,
                               0,
