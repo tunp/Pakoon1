@@ -1647,7 +1647,7 @@ void CPakoon1View::CancelPressedOnCurrentMenu() {
         // Save settings
         string sTmp;
         //sscanf(LPCTSTR(pMenu->m_items[0].m_sAssocListItems[pMenu->m_items[0].m_nValue]), "%d*%d", &(BGame::m_nDispWidth), &(BGame::m_nDispHeight));
-        sscanf(pMenu->m_items[0].m_sAssocListItems[pMenu->m_items[0].m_nValue].c_str(), "%d*%d", &(BGame::m_nDispWidth), &(BGame::m_nDispHeight));
+        //sscanf(pMenu->m_items[0].m_sAssocListItems[pMenu->m_items[0].m_nValue].c_str(), "%d*%d", &(BGame::m_nDispWidth), &(BGame::m_nDispHeight)); //we use only desktop resolution now
         //sscanf(LPCTSTR(pMenu->m_items[1].m_sAssocListItems[pMenu->m_items[1].m_nValue]), "%d", &(BGame::m_nDispBits));
         sscanf(pMenu->m_items[1].m_sAssocListItems[pMenu->m_items[1].m_nValue].c_str(), "%d", &(BGame::m_nDispBits));
         //sscanf(LPCTSTR(pMenu->m_items[2].m_sAssocListItems[pMenu->m_items[2].m_nValue]), "%d", &(BGame::m_nDispHz));

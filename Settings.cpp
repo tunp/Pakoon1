@@ -34,11 +34,11 @@ void Settings::ReadSettings(BSimulation *pSimulation) {
   if(fp) {
     char sLine[1024];
     fgets(sLine, 1024, fp);
-    sscanf(sLine, "ScreenRes = %d, %d, %d, %d", 
+    /*sscanf(sLine, "ScreenRes = %d, %d, %d, %d", 
       &(BGame::m_nDispWidth),
       &(BGame::m_nDispHeight),
       &(BGame::m_nDispBits),
-      &(BGame::m_nDispHz));
+      &(BGame::m_nDispHz));*/ //we use only desktop resolution now
     fgets(sLine, 1024, fp);
     sscanf(sLine, "TerrainResolution = %d", &(BGame::m_nTerrainResolution));
     fgets(sLine, 1024, fp);
