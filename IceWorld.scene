@@ -10,7 +10,7 @@
  SkyTexture = ./Textures/skydetailed.tga
  Ground1Texture = ./Textures/Snowy1.tga
  Ground2Texture = ./Textures/Snowy1.tga
- EnvMapTexture = ./Textures/Iceworld_envmap.tga
+ EnvMapTexture = ./Textures/IceWorld_EnvMap.tga
 
 [Geometry]
 

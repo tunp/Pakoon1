@@ -941,7 +941,7 @@ void BVehicle::PreProcessWheels() {
     OpenGLHelpers::SetColorFull(1, 1, 1, 1);
     //if(pWheel->m_style == BWheel::TWheelStyle::OFFROAD) {
     if(pWheel->m_style == BWheel::OFFROAD) {
-      BTextures::Use(BTextures::LoadTexture(".\\Textures\\WheelDetailed2.tga"));
+      BTextures::Use(BTextures::LoadTexture("Textures/wheeldetailed2.tga"));
     } else {
       BTextures::Use(BTextures::WHEEL);
     }

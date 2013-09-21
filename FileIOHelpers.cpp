@@ -29,7 +29,7 @@ map<string, map<string, string> > FileHelpers::readMapFromFile(string filename) 
 				line.erase(line.begin());
 			}
 			
-			while (!line.empty() && (line[line.length()-1] == '\n' || line[line.length()-1] == '\r' || line[line.length()-1] == ' ')) {
+			while (!line.empty() && (line[line.length()-1] == '\n' || line[line.length()-1] == '\r' || line[line.length()-1] == ' ' || line[line.length()-1] == '\t')) {
 				line.erase(line.end()-1);
 			}
 			
