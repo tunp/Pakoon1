@@ -391,6 +391,9 @@ void BObject::CreateShadowPolygon() {
       do {
         // Test if *(pLoop->m_pNext) violates
         if(!m_shadow.TurnsRight(pLoop)) {
+			if (pLoop->m_pNext == pNew) {
+				pNew = pNew->m_pNext;
+			}
           m_shadow.Delete(pLoop->m_pNext);
         } else {
           pLoop = pLoop->m_pNext;
