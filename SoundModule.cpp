@@ -41,7 +41,7 @@ int  SoundModule::m_nHeliSoundVolume = 255;
 int  SoundModule::m_nJetSoundVolume = 255;
 
 Sound SoundModule::sMenuMusic;
-Sound SoundModule::sVehicleMusic;
+Sound SoundModule::sVehicleSounds;
 Sound SoundModule::sEngineSound1;
 Sound SoundModule::sEngineSound2;
 Sound SoundModule::sMessageSound;
@@ -50,6 +50,10 @@ Sound SoundModule::sCrashSound;
 Sound SoundModule::sHeliSound;
 Sound SoundModule::sJetSound;
 Sound SoundModule::s43AASound;
+
+vector<Sound *> SoundModule::playPool;
+vector<Sound *> SoundModule::sounds;
+SDL_mutex *SoundModule::mix_mutex;
 
 int  SoundModule::m_nSpace = 1;
 
@@ -80,6 +84,19 @@ void SoundModule::Initialize() {
 		m_bRunning = true;
 		SDL_PauseAudio(0);
 	}
+	
+	sounds.push_back(&sMenuMusic);
+	sounds.push_back(&sVehicleSounds);
+	sounds.push_back(&sEngineSound1);
+	sounds.push_back(&sEngineSound2);
+	sounds.push_back(&sMessageSound);
+	sounds.push_back(&sSkidSound);
+	sounds.push_back(&sCrashSound);
+	sounds.push_back(&sHeliSound);
+	sounds.push_back(&sJetSound);
+	sounds.push_back(&s43AASound);
+	
+	mix_mutex = SDL_CreateMutex();
 }
 
 /*void SoundModule::FreeSound(FSOUND_SAMPLE **pSound) {
@@ -100,6 +117,7 @@ void SoundModule::Close() {
   FreeSound(&m_pHeliSound);
   FSOUND_Close();*/
   m_bRunning = false;
+  SDL_DestroyMutex(mix_mutex);
 }
 
 void SoundModule::SetMenuMusicVolume(int nVol) {
@@ -113,7 +131,7 @@ void SoundModule::SetMenuMusicVolume(int nVol) {
 
 void SoundModule::SetVehicleSoundsVolume(int nVol) {
 	m_nVehicleSoundsVolume = nVol;
-	//sVehicleSounds.setVolume(m_nVehicleSoundsVolume);
+	sVehicleSounds.setVolume(m_nVehicleSoundsVolume);
   /*m_nVehicleSoundsVolume = nVol;
   if(m_chaVehicleSounds && m_bRunning) {
     FSOUND_SetVolume(m_chaVehicleSounds, m_nVehicleSoundsVolume);
@@ -555,7 +573,9 @@ void SoundModule::PlayCrashSound(double dVolume) {
       sCrashSound.setLoop(false);
     }
     if(sCrashSound.isLoaded()) {
-      sCrashSound.play();
+      sCrashSound.setFreq(22050 + rand() % 10000);
+      sCrashSound.setVolume(55 + int(dVolume * 200.0));
+      playOnSoundPool(sCrashSound);
     }
   }
   /*static clock_t clockPrev = clock();
@@ -650,37 +670,50 @@ void SoundModule::Update3DSounds(BVector& rvSouLoc,
 }
 
 void SoundModule::mix(void *userdata, Uint8 *stream, int len) {
-	vector<Sound *> sounds;
-	
 	memset(stream, 0, len);
 	
-	sounds.push_back(&sMenuMusic);
-	sounds.push_back(&sVehicleMusic);
-	sounds.push_back(&sEngineSound1);
-	sounds.push_back(&sEngineSound2);
-	sounds.push_back(&sMessageSound);
-	sounds.push_back(&sSkidSound);
-	sounds.push_back(&sCrashSound);
-	sounds.push_back(&sHeliSound);
-	sounds.push_back(&sJetSound);
-	sounds.push_back(&s43AASound);
-	
 	for (int y = 0; y < sounds.size(); y++) {
-		char *samples = new char[len];
-		sounds[y]->getSamples(samples, len);
-		Sint16 *p_stream = (Sint16 *)stream;
-		Sint16 *p_samples = (Sint16 *)samples;
-		for (int x = 0; x < len; x += 2) {
-			Sint32 val = (Sint32) *p_stream + *p_samples;
-			if (val > 32767) {
-				val = 32767;
-			} else if (val < -32766) {
-				val = -32766;
-			}
-			//*p_stream += *p_samples;
-			*p_stream = val;
-			p_stream++;
-			p_samples++;
+		mixOne(sounds[y], stream, len);
+	}
+	
+	SDL_LockMutex(mix_mutex);
+	for (int y = 0; y < playPool.size(); y++) {
+		mixOne(playPool[y], stream, len);
+	}
+	SDL_UnlockMutex(mix_mutex);
+}
+
+void SoundModule::mixOne(Sound *sound, Uint8 *stream, int len) {
+	char *samples = new char[len];
+	sound->getSamples(samples, len);
+	Sint16 *p_stream = (Sint16 *)stream;
+	Sint16 *p_samples = (Sint16 *)samples;
+	for (int x = 0; x < len; x += 2) {
+		Sint32 val = (Sint32) *p_stream + *p_samples;
+		if (val > 32767) {
+			val = 32767;
+		} else if (val < -32766) {
+			val = -32766;
+		}
+		//*p_stream += *p_samples;
+		*p_stream = val;
+		p_stream++;
+		p_samples++;
+	}
+	delete[] samples;
+}
+
+void SoundModule::playOnSoundPool(Sound &sound) {
+	SDL_LockMutex(mix_mutex);
+	for (int y = 0; y < playPool.size(); y++) {
+		if (!playPool[y]->isPlaying()) {
+			delete playPool[y];
+			playPool.erase(playPool.begin() + y);
+			y--;
 		}
 	}
+	Sound *new_sound = new Sound(sound);
+	new_sound->play();
+	playPool.push_back(new_sound);
+	SDL_UnlockMutex(mix_mutex);
 }
