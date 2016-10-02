@@ -204,7 +204,7 @@ void BUISelectionList::DrawAt(double dX,
       dXOffset = -dLen;
     }
 
-    double dAlpha = fabs(double(clock() % CLOCKS_PER_SEC) - (double(CLOCKS_PER_SEC) / 2.0)) / (double(CLOCKS_PER_SEC) / 2.0);
+    double dAlpha = fabs(double(SDL_GetTicks() % 1000) - 500.0) / 500.0;
 
     glTranslated(0, -1, 0);
     glBegin(GL_QUADS);
@@ -381,7 +381,7 @@ void BUIEdit::DrawAt(double dX, double dY, bool bCursor, BTextRenderer::TTextAli
   double dXOffset = double(m_sValue.length()) * dCharWidth;
   double dLen = dCharWidth;
 
-  double dAlpha = fabs(double(clock() % CLOCKS_PER_SEC) - (double(CLOCKS_PER_SEC) / 2.0)) / (double(CLOCKS_PER_SEC) / 2.0);
+  double dAlpha = fabs(double(SDL_GetTicks() % 1000) - 500.0) / 500.0;
 
   glTranslated(-1, -1, 0);
   glBegin(GL_QUADS);

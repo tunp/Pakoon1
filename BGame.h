@@ -36,7 +36,7 @@ class BGame {
   static BSceneEditor      m_sceneEditor;
   static CPakoon1View     *m_pView;
 
-  static clock_t           m_clockFrozenStart;
+  static unsigned           m_clockFrozenStart;
   static int               m_nFreezeRefCount;
 public:
   static int  m_nDispWidth;
@@ -66,8 +66,8 @@ public:
   static bool m_bDrawOnScreenTracking;
   static bool m_bFrozen;
   static bool m_bShowHint;
-  static clock_t m_clockHintStart;
-  static clock_t m_clockLastLift;
+  static unsigned m_clockHintStart;
+  static unsigned m_clockLastLift;
   static double m_dNavSatHandleAngle;
   static double m_dServiceHandleAngle;
   static int    m_nGameMenuSelection;
@@ -76,7 +76,7 @@ public:
   static bool   m_bShowCancelQuestion;
   static bool   m_bSceneEditorMode;
   static bool   m_bFadingIn;
-  static clock_t m_clockFadeStart;
+  static unsigned m_clockFadeStart;
   static BMenu *m_pMenuCurrent;
   static BMenu *m_pMenuPrevious;
   static bool   m_bMenusCreated;
@@ -101,17 +101,17 @@ public:
   static bool m_bQuitPending;
 
   static BVector m_vGasStationClosest;
-  static clock_t m_clockLastFuelExit;
-  static clock_t m_clockFuelingStarted;
+  static unsigned m_clockLastFuelExit;
+  static unsigned m_clockFuelingStarted;
   static bool    m_bFueling;
   static int     m_nFuelSelect;
   static bool    m_bFuelingInProgress;
 
   static BObject *m_pClient;
   static BObject *m_pBase;
-  static clock_t m_clockLastPizzaTempCheck;
-  static clock_t m_clockPickupStart;
-  static clock_t m_clockDeliveryStart;
+  static unsigned m_clockLastPizzaTempCheck;
+  static unsigned m_clockPickupStart;
+  static unsigned m_clockDeliveryStart;
   static bool    m_bDeliveryStartInProgress;
   static bool    m_bPickupStartInProgress;
 
@@ -135,9 +135,9 @@ public:
   static bool    m_bHasEarthquakes;
   static bool    m_bEarthquakeActive;
   static double  m_bEarthquakeFactor;
-  static clock_t m_bEarthquakeStarted;
-  static clock_t m_bEarthquakeWillEnd;
-  static clock_t m_bEarthquakeNextStart;
+  static unsigned m_bEarthquakeStarted;
+  static unsigned m_bEarthquakeWillEnd;
+  static unsigned m_bEarthquakeNextStart;
 
   static bool    m_bWindActive;
   static BVector m_vWindDirection; // unit vector
@@ -148,7 +148,7 @@ public:
   static bool    m_bMultiProcessor;
 
   static bool    m_bAnalyzerMode;
-  static clock_t m_clockAnalyzerStarted;
+  static unsigned m_clockAnalyzerStarted;
   static int     m_nVisualize;
 
   static BUISelectionList m_listYesNo;
@@ -189,7 +189,7 @@ public:
   static string        GetScrambleChecksum();
 
   static void    FreezeSimulation(bool bPause = false);
-  static clock_t ContinueSimulation();
+  static unsigned ContinueSimulation();
   static void    SetupMenus();
   static void    UpdateSettings();
   static void    EnumerateScreenResolutions();

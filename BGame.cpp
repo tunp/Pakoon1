@@ -55,19 +55,19 @@ bool    BGame::m_bShowQuickHelp;
 bool    BGame::m_bDrawOnScreenTracking;
 double  BGame::m_dNavSatHandleAngle;
 double  BGame::m_dServiceHandleAngle;
-clock_t BGame::m_clockFrozenStart = 0;
-clock_t BGame::m_clockLastLift = 0;
+unsigned BGame::m_clockFrozenStart = 0;
+unsigned BGame::m_clockLastLift = 0;
 int     BGame::m_nFreezeRefCount = 0;
 int     BGame::m_nPhysicsSteps; 
 bool    BGame::m_bShowHint;
-clock_t BGame::m_clockHintStart;
+unsigned BGame::m_clockHintStart;
 int     BGame::m_nGameMenuSelection = 5; // Return to game by default
 int     BGame::m_nYesNoSelection = 1; // Yes by default
 bool    BGame::m_bShowGameMenu = false;
 bool    BGame::m_bShowCancelQuestion = false;
 bool    BGame::m_bSceneEditorMode = true;
 bool    BGame::m_bFadingIn = false;
-clock_t BGame::m_clockFadeStart = 0;
+unsigned BGame::m_clockFadeStart = 0;
 
 string BGame::m_sScene = "";
 string BGame::m_sVehicle = "";
@@ -86,9 +86,9 @@ bool    BGame::m_bMenusCreated = false;
 bool    BGame::m_bSettingsFromGame = false;
 
 double  BGame::m_dPizzaTemp = 0.0;
-clock_t BGame::m_clockLastPizzaTempCheck = 0;
-clock_t BGame::m_clockPickupStart = 0;
-clock_t BGame::m_clockDeliveryStart = 0;
+unsigned BGame::m_clockLastPizzaTempCheck = 0;
+unsigned BGame::m_clockPickupStart = 0;
+unsigned BGame::m_clockDeliveryStart = 0;
 bool    BGame::m_bDeliveryStartInProgress = false;
 bool    BGame::m_bPickupStartInProgress = false;
 int     BGame::m_nPizzaDamaged = 0;
@@ -119,8 +119,8 @@ bool    BGame::m_bQuitPending = false;
 BGame::TState  BGame::m_state = BGame::PICKUP;
 
 BVector BGame::m_vGasStationClosest = BVector(-9999.0, -9999.0, -9999.0);
-clock_t BGame::m_clockLastFuelExit = 0;
-clock_t BGame::m_clockFuelingStarted = 0;
+unsigned BGame::m_clockLastFuelExit = 0;
+unsigned BGame::m_clockFuelingStarted = 0;
 bool    BGame::m_bFueling = false;
 int     BGame::m_nFuelSelect = 0;
 bool    BGame::m_bFuelingInProgress = false;
@@ -143,9 +143,9 @@ double BGame::m_dPurchasePrice = 100.0;
 bool    BGame::m_bHasEarthquakes = false;
 bool    BGame::m_bEarthquakeActive = false;
 double  BGame::m_bEarthquakeFactor = 0.0;
-clock_t BGame::m_bEarthquakeStarted = 0;
-clock_t BGame::m_bEarthquakeWillEnd = 0;
-clock_t BGame::m_bEarthquakeNextStart = 0;
+unsigned BGame::m_bEarthquakeStarted = 0;
+unsigned BGame::m_bEarthquakeWillEnd = 0;
+unsigned BGame::m_bEarthquakeNextStart = 0;
 
 bool    BGame::m_bWindActive = true;
 BVector BGame::m_vWindDirection = BVector(1, 0, 0);
@@ -156,7 +156,7 @@ double  BGame::m_dBaseWindStrength = 0.07; // was 0.1
 bool    BGame::m_bMultiProcessor = false;
 
 bool    BGame::m_bAnalyzerMode = false;
-clock_t BGame::m_clockAnalyzerStarted = 0;
+unsigned BGame::m_clockAnalyzerStarted = 0;
 int     BGame::m_nVisualize = 255; // all on
 
 
@@ -198,7 +198,7 @@ BGame::BGame() {
   m_bDrawOnScreenTracking = true;
   m_nPhysicsSteps = 10;
   m_bShowHint = false;
-  m_clockHintStart = clock();
+  m_clockHintStart = SDL_GetTicks();
 
   static string sYesNo[2] = {"Yes", "No"};
   static string sOK[1] = {"OK"};
@@ -776,7 +776,7 @@ void BGame::FreezeSimulation(bool bPause) {
   if(m_nFreezeRefCount == 0) {
     SoundModule::StopEngineSound();
     m_nPhysicsSteps = m_simulation.m_nPhysicsStepsBetweenRender;
-    m_clockFrozenStart = clock();
+    m_clockFrozenStart = SDL_GetTicks();
     m_bFrozen = true;
     if(bPause) {
       GetSimulation()->m_bPaused = true;
@@ -786,7 +786,7 @@ void BGame::FreezeSimulation(bool bPause) {
 }
 
 //*************************************************************************************************
-clock_t BGame::ContinueSimulation() {
+unsigned BGame::ContinueSimulation() {
   if(m_nFreezeRefCount > 0) {
     --m_nFreezeRefCount;
     if((m_nFreezeRefCount == 0) && GetSimulation()->m_bPaused) {
@@ -795,14 +795,14 @@ clock_t BGame::ContinueSimulation() {
       GetSimulation()->m_bPaused = false;
       m_simulation.m_nPhysicsStepsBetweenRender = m_nPhysicsSteps;
       m_bFrozen = false;
-      return clock() - m_clockFrozenStart;
+      return SDL_GetTicks() - m_clockFrozenStart;
     }
     if(m_nFreezeRefCount == 0) {
       m_simulation.m_nPhysicsStepsBetweenRender = m_nPhysicsSteps;
       SoundModule::StartEngineSound();
       SoundModule::SetEngineSoundVolume(255.0);
       m_bFrozen = false;
-      return clock() - m_clockFrozenStart;
+      return SDL_GetTicks() - m_clockFrozenStart;
     }
   }
   return 0;
@@ -853,7 +853,7 @@ void BGame::UpdateEarthquake() {
   // Check what needs to be done
 
   if(m_bHasEarthquakes) {
-    clock_t clockNow = clock();
+    unsigned clockNow = SDL_GetTicks();
     if(m_bEarthquakeActive) {
       // See if we need exit earthquake
       if(clockNow > m_bEarthquakeWillEnd) {
@@ -897,7 +897,7 @@ void BGame::UpdateWindParticles(bool bInit) {
   static BVector vUp(0, 0, -1);
 
   double dTmp;
-  m_dWindStrength = m_dBaseWindStrength + HeightMap::CalcHeightAt(double(clock() / 10000.0), 137.0, dTmp, HeightMap::NOISE) * m_dBaseWindStrength * 0.1;
+  m_dWindStrength = m_dBaseWindStrength + HeightMap::CalcHeightAt(double(SDL_GetTicks() / 10000.0), 137.0, dTmp, HeightMap::NOISE) * m_dBaseWindStrength * 0.1;
 
   BCamera *pCamera = GetSimulation()->GetCamera();
   BVector vCamSpeed = pCamera->m_vSpeed * (1.0 / GetSimulation()->m_nPhysicsStepsBetweenRender);
@@ -944,9 +944,9 @@ void BGame::UpdateAnalyzer() {
   // See in which phase we are in
   //static nPhase = -1;
   /*static int nPhase = -1;
-  clock_t clockNow = clock();
+  unsigned clockNow = SDL_GetTicks();
 
-  int nNewPhase = (clockNow - m_clockAnalyzerStarted) / CLOCKS_PER_SEC / 3;
+  int nNewPhase = (clockNow - m_clockAnalyzerStarted) / 1000.0 / 3;
   if(nPhase != nNewPhase) {
     // Exit old phase
     if(nPhase != -1) {

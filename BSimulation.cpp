@@ -113,7 +113,7 @@ BSimulation::~BSimulation() {
 
 //*****************************************************************************
 void BSimulation::CreateTestCloud() {
-  srand(clock());
+  srand(time(0));
   for(int nCloud = 0; nCloud < m_nClouds; ++nCloud) {
     m_cloud[nCloud].m_nPuffs = 10;
     int i;
@@ -227,7 +227,7 @@ void BSimulation::PrePaint() {
   for(int i = 0; i < m_nPhysicsSteps + nExtraStep; ++i) {
     if(BGame::m_bEarthquakeActive) {
       double dTmp;
-      double dNoise = HeightMap::CalcHeightAt(double(clock()), 137.0, dTmp, HeightMap::NOISE);
+      double dNoise = HeightMap::CalcHeightAt(double(SDL_GetTicks()), 137.0, dTmp, HeightMap::NOISE);
       // double dNoise = sin(double(clock()) / 3000.0) * Random(0.85);
       g_dEarthQuake = dNoise * BGame::m_bEarthquakeFactor;
     } else {
@@ -679,14 +679,14 @@ int BSimulation::Paint(bool bCreateDLs, bool bWireframe, bool bNormals) {
   glTranslated(0, 0, g_dEarthQuake);
   //if(BGame::m_nVisualize & BGame::TAnalyzerVis::TERRAIN) {
   if(BGame::m_nVisualize & BGame::TERRAIN) {
-    clock_t clockStart = clock();
+    unsigned clockStart = SDL_GetTicks();
     m_terrain.MakeTerrainValid(m_vehicle.m_vLocation, 
                                m_camera.m_vLocation, 
                                m_camera.m_orientation.m_vForward, 
                                bCreateDLs, 
                                bWireframe, 
                                bNormals);
-    nOffTime = clock() - clockStart;
+    nOffTime = SDL_GetTicks() - clockStart;
 
     // Render terrain
     OpenGLHelpers::SetDefaultLighting();

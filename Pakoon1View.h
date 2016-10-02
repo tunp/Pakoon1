@@ -58,7 +58,7 @@ class CPakoon1View {
 
   //HGLRC   m_hGLRC;
 public:
-  clock_t m_nMenuTime; // Time spent viewing menu
+  unsigned m_nMenuTime; // Time spent viewing menu
   
   int window_width;
   int window_height;
@@ -81,7 +81,7 @@ private:
   enum TMenuScroll {SCROLL_LEFT, SCROLL_RIGHT, SCROLL_UP, SCROLL_DOWN};
 
   TMenuScroll m_scrollDir;
-  clock_t     m_clockMenuScroll;
+  unsigned     m_clockMenuScroll;
 
   //void ProcessMouseInput(int nFlags, CPoint point);
   void ProcessMouseInput(MouseFlags nFlags, SDL_Point point);

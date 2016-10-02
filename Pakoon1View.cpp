@@ -640,7 +640,7 @@ void CPakoon1View::OnDrawCurrentMenu() {
         // Init earthquake
         BGame::m_bEarthquakeFactor = 0.0;
         BGame::m_bEarthquakeActive = false;
-        BGame::m_bEarthquakeNextStart = clock() + CLOCKS_PER_SEC * (60.0 + Random(60.0));
+        BGame::m_bEarthquakeNextStart = (double)SDL_GetTicks() / 1000.0 + (60.0 + Random(60.0));
 
         // Init wind particles
         if(BGame::m_bWindActive) {
@@ -695,10 +695,10 @@ void CPakoon1View::OnDrawCurrentMenu() {
 
   bool bScrolling = false;
   double dScrollPhase = 0;
-  clock_t clockNow = clock();
-  if((clockNow - m_clockMenuScroll) < (CLOCKS_PER_SEC / 2)) {
+  unsigned clockNow = SDL_GetTicks();
+  if((clockNow - m_clockMenuScroll) < 500.0) {
     bScrolling = true;
-    dScrollPhase = double(clockNow - m_clockMenuScroll) / double(CLOCKS_PER_SEC / 2);
+    dScrollPhase = double(clockNow - m_clockMenuScroll) / 500.0;
     dScrollPhase = (1.0 + sin(((dScrollPhase * 2.0) - 1.0) * 3.1415926 * 0.5)) * 0.5;
   }
 
@@ -1043,8 +1043,8 @@ void CPakoon1View::DrawMenu(BMenu *pMenu) {
       double dItemsAlpha[2];
       nItemsToDraw[0] = -1;
       nItemsToDraw[1] = -1;
-      clock_t clockNow = clock();
-      double dCurSecond = double(clockNow - pMenu->m_clockStarted) / double(CLOCKS_PER_SEC);
+      unsigned clockNow = SDL_GetTicks();
+      double dCurSecond = double(clockNow - pMenu->m_clockStarted) / 1000.0;
 
       if((BGame::m_pMenuCurrent == &(BGame::m_menuCredits)) && 
          (dCurSecond > (1 + pMenu->m_items[pMenu->m_nItems - 1].m_nValue + pMenu->m_items[pMenu->m_nItems - 1].m_nValue2))) {
@@ -1331,7 +1331,7 @@ void CPakoon1View::DrawMenuItemSliderAtRelPos(int nX, int nY, int nItems, int nI
 
     double dDimmer = 0.75;
     if(pMenuItem->m_bOpen) {
-      double dAlpha = fabs(double(clock() % CLOCKS_PER_SEC) - (double(CLOCKS_PER_SEC) / 2.0)) / (double(CLOCKS_PER_SEC) / 2.0);
+      double dAlpha = fabs(double(SDL_GetTicks() % 1000) - 500.0) / 500.0;
       dDimmer = 0.6 + 0.4 * dAlpha;
     }
 
@@ -1507,7 +1507,7 @@ void CPakoon1View::ReturnPressedOnCurrentMenu() {
       case 3: // CREDITS
         BGame::m_pMenuPrevious = BGame::m_pMenuCurrent;
         BGame::m_pMenuCurrent = &(BGame::m_menuCredits);
-        BGame::m_menuCredits.m_clockStarted = clock();
+        BGame::m_menuCredits.m_clockStarted = SDL_GetTicks();
         BUI::StartUsingSelectionList(&(BGame::m_pMenuCurrent->m_listMenu), 
                                      &CPakoon1View::OnKeyDownCurrentMenu);
         StartMenuScroll(SCROLL_DOWN);
@@ -1605,7 +1605,7 @@ void CPakoon1View::ReturnPressedOnCurrentMenu() {
     m_pDrawFunction = &CPakoon1View::OnDrawGame;
     m_pKeyDownFunction = &CPakoon1View::OnKeyDownGame;
     m_game.m_bFadingIn = true;
-    m_game.m_clockFadeStart = clock();
+    m_game.m_clockFadeStart = SDL_GetTicks();
     //ShowCursor(FALSE);
     SDL_ShowCursor(0);
     //Invalidate();
@@ -1696,7 +1696,7 @@ void CPakoon1View::CancelPressedOnCurrentMenu() {
           BGame::m_bShowGameMenu = true;
           m_pDrawFunction = &CPakoon1View::OnDrawGame;
           m_game.m_bFadingIn = true;
-          m_game.m_clockFadeStart = clock();
+          m_game.m_clockFadeStart = SDL_GetTicks();
           //ShowCursor(FALSE);
           SDL_ShowCursor(0);
         } else {
@@ -1754,7 +1754,7 @@ void CPakoon1View::CancelPressedOnCurrentMenu() {
 
 //*************************************************************************************************
 void CPakoon1View::StartMenuScroll(TMenuScroll scroll) {
-  m_clockMenuScroll = clock();
+  m_clockMenuScroll = SDL_GetTicks();
   m_scrollDir = scroll;
 }
 
@@ -1777,8 +1777,8 @@ extern double g_dExtraAlpha;
 //void CPakoon1View::OnDrawGame(CDC* pDC) {
 void CPakoon1View::OnDrawGame() {
   static int nFrameNo = 0;
-  static clock_t clockLastCheckPoint = clock();
-  static clock_t clockLastCheckPoint2 = clock();
+  static unsigned clockLastCheckPoint = SDL_GetTicks();
+  static unsigned clockLastCheckPoint2 = SDL_GetTicks();
   //static string sRate = _T("");
   static string sRate = "";
 
@@ -1791,7 +1791,7 @@ void CPakoon1View::OnDrawGame() {
   BGame::UpdateAnalyzer();
 
   if(m_bInitClock) {
-    clockLastCheckPoint = clock();
+    clockLastCheckPoint = SDL_GetTicks();
     m_bInitClock = false;
   }
 
@@ -1857,12 +1857,12 @@ void CPakoon1View::OnDrawGame() {
     m_game.GetSimulation()->PrePaint();
   }
 
-  static clock_t clockLastCrash = clock();
+  static unsigned clockLastCrash = SDL_GetTicks();
   if(BGame::GetSimulation()->m_dMaxGForce > 1.0) {
     //if(BGame::GetState() == BGame::TState::DELIVERY) {
     if(BGame::GetState() == BGame::DELIVERY) {
-      if((double(clock() - clockLastCrash) / double(CLOCKS_PER_SEC)) > 1.0) {
-        clockLastCrash = clock();
+      if((double(SDL_GetTicks() - clockLastCrash) / 1000.0) > 1.0) {
+        clockLastCrash = SDL_GetTicks();
         BMessages::Show(50, "pizzadamage", "Pizza damaged! profit penalty -10%", 3, false, 1, 0, 0);
         ++(BGame::m_nPizzaDamaged);
       }
@@ -1897,9 +1897,9 @@ void CPakoon1View::OnDrawGame() {
 
   static double dSortaClock = 0.0;
   //static clock_t clockPrev = clock();
-  static clock_t clockPrev = SDL_GetTicks();
+  static unsigned clockPrev = SDL_GetTicks();
   //clock_t clockNow = clock();
-  clock_t clockNow = SDL_GetTicks();
+  unsigned clockNow = SDL_GetTicks();
   dSortaClock += 0.001 * double(clockNow - clockPrev);
   clockPrev = clockNow;
   double dVert;
@@ -1994,8 +1994,8 @@ void CPakoon1View::OnDrawGame() {
   } else if(BGame::GetState() == BGame::DELIVERY) {
     CheckForDelivery();
     // Update pizza temp
-    clock_t clockNow = clock();
-    double dElapsed = double(clockNow - BGame::m_clockLastPizzaTempCheck) / double(CLOCKS_PER_SEC) * 0.21;
+    unsigned clockNow = SDL_GetTicks();
+    double dElapsed = double(clockNow - BGame::m_clockLastPizzaTempCheck) / 1000.0 * 0.21;
     double dScaler = (BGame::m_dPizzaTemp - 26.2) / (60.0 - 26.2);
     BGame::m_clockLastPizzaTempCheck = clockNow;
     BGame::m_dPizzaTemp -= (dElapsed * dScaler);
@@ -2091,7 +2091,7 @@ void CPakoon1View::OnDrawGame() {
     if(BGame::m_bPickupStartInProgress) {
       //DrawPickupInfo(pDC, rect);
       DrawPickupInfo();
-      if(((clock() - BGame::m_clockPickupStart) / CLOCKS_PER_SEC) > 5) {
+      if(((SDL_GetTicks() - BGame::m_clockPickupStart) / 1000.0) > 5) {
         m_nMenuTime += BGame::ContinueSimulation();
         BGame::m_bPickupStartInProgress = false;
         BMessages::Show(50, "deliver", "DELIVER PIZZA TO CLIENT", 8, true);
@@ -2102,7 +2102,7 @@ void CPakoon1View::OnDrawGame() {
     if(BGame::m_bDeliveryStartInProgress) {
       //DrawDeliveryInfo(pDC, rect);
       DrawDeliveryInfo();
-      if(((clock() - BGame::m_clockDeliveryStart) / CLOCKS_PER_SEC) > 5) {
+      if(((SDL_GetTicks() - BGame::m_clockDeliveryStart) / 1000.0) > 5) {
         m_nMenuTime += BGame::ContinueSimulation();
         BGame::m_bDeliveryStartInProgress = false;
         BMessages::Show(50, "pickup", "RETURN TO BASE", 8, true);
@@ -2257,11 +2257,11 @@ void CPakoon1View::OnDrawGame() {
 
     // Draw hint text if it's on
     if(m_game.m_bShowHint) {
-      clock_t clockNow = clock();
-      if((clockNow - m_game.m_clockHintStart) > CLOCKS_PER_SEC * 2) {
+      unsigned clockNow = SDL_GetTicks();
+      if((clockNow - m_game.m_clockHintStart) > 2000) {
         m_game.m_bShowHint = false;
       } else {
-        double dAlpha = 1.0 - double(clockNow - m_game.m_clockHintStart) / double(CLOCKS_PER_SEC * 2);
+        double dAlpha = 1.0 - double(clockNow - m_game.m_clockHintStart) / 2000.0;
 
         // OpenGLHelpers::SetColorFull(0.3, 0.6, 0.8, dAlpha);
         OpenGLHelpers::SetColorFull(0.9, 0.2, 0.1, dAlpha);
@@ -2305,7 +2305,7 @@ void CPakoon1View::OnDrawGame() {
 
     // On top of everything, draw fade in if we are in the first second
     if(m_game.m_bFadingIn) {
-      double dFade = double(clock() - m_game.m_clockFadeStart) / double(CLOCKS_PER_SEC);
+      double dFade = double(SDL_GetTicks() - m_game.m_clockFadeStart) / 1000.0;
       if(dFade > 1.0) {
         m_game.m_bFadingIn = false;
         BMessages::Show(50, "start game", "GO TO BASE FOR FIRST PICKUP", 5, true);
@@ -2327,8 +2327,8 @@ void CPakoon1View::OnDrawGame() {
     End2DRendering();
 
     // Calculate framerates
-    clockNow = clock();
-    g_d10LastFPS[nFrameNo] = double(clockNow - clockLastCheckPoint2) / double(CLOCKS_PER_SEC);
+    clockNow = SDL_GetTicks();
+    g_d10LastFPS[nFrameNo] = double(clockNow - clockLastCheckPoint2) / 1000.0;
     if(g_d10LastFPS[nFrameNo] < 0.00001) {
       g_d10LastFPS[nFrameNo] = 999.9;
     } else {
@@ -2337,7 +2337,7 @@ void CPakoon1View::OnDrawGame() {
     clockLastCheckPoint2 = clockNow;
 
     if(++nFrameNo == 10) {
-      g_dRate = 10.0 / (double(clockNow - (clockLastCheckPoint + m_nMenuTime)) / double(CLOCKS_PER_SEC));
+      g_dRate = 10.0 / (double(clockNow - (clockLastCheckPoint + m_nMenuTime)) / 1000.0);
       g_dAveRate += g_dRate;
       if(m_nMenuTime) {
         m_nMenuTime = 0;
@@ -2518,7 +2518,7 @@ void CPakoon1View::CheckForFueling() {
      !BGame::m_bShowCancelQuestion && 
      !BGame::m_bShowGameMenu && 
      !BGame::m_bShowQuickHelp) {
-    if((clock() - BGame::m_clockLastFuelExit) > (CLOCKS_PER_SEC * 3)) {
+    if((SDL_GetTicks() - BGame::m_clockLastFuelExit) > 3000) {
       // Start fueling
       BGame::FreezeSimulation();
       m_pKeyDownFunction = &CPakoon1View::OnKeyDownFueling;
@@ -2573,7 +2573,7 @@ void CPakoon1View::CheckForPickup() {
     BMessages::Remove("start game");
     BGame::FreezeSimulation();
     BGame::m_bPickupStartInProgress = true;
-    BGame::m_clockPickupStart = clock();
+    BGame::m_clockPickupStart = SDL_GetTicks();
     //BGame::SetState(BGame::TState::DELIVERY);
     BGame::SetState(BGame::DELIVERY);
     BGame::m_dPizzaTemp = 60.0 + Random(5.0);
@@ -2633,7 +2633,7 @@ void CPakoon1View::CheckForPickup() {
       BGame::m_dLastDeliveryDistance = 800.0;
     }
 
-    BGame::m_clockLastPizzaTempCheck = clock();
+    BGame::m_clockLastPizzaTempCheck = SDL_GetTicks();
   }
 }
 
@@ -2652,7 +2652,7 @@ void CPakoon1View::CheckForDelivery() {
     // Start delivery
     BGame::FreezeSimulation();
     BGame::m_bDeliveryStartInProgress = true;
-    BGame::m_clockDeliveryStart = clock();
+    BGame::m_clockDeliveryStart = SDL_GetTicks();
     //BGame::SetState(BGame::TState::PICKUP);
     BGame::SetState(BGame::PICKUP);
     BGame::GetSimulation()->RemoveTrackingTarget("CLIENT");
@@ -2731,8 +2731,8 @@ void CPakoon1View::DrawFuelingButtons() {
 
   // Check for fuel intake amount
   if(BGame::m_bFuelingInProgress) {
-    clock_t clockNow = clock();
-    double dLitresInserted = double(clockNow - BGame::m_clockFuelingStarted) / double(CLOCKS_PER_SEC) * 5.0;
+    unsigned clockNow = SDL_GetTicks();
+    double dLitresInserted = double(clockNow - BGame::m_clockFuelingStarted) / 1000.0 * 5.0;
     BGame::m_clockFuelingStarted = clockNow;
     double dCostOfFuel = dLitresInserted;
 
@@ -2799,8 +2799,8 @@ void CPakoon1View::DrawFuelingButtons() {
   BTextures::Use(BTextures::FUELING);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); // not mipmapped
 
-  double dBlink = fabs(double(clock() % (CLOCKS_PER_SEC / 2) - (double(CLOCKS_PER_SEC) / 4.0))) / (double(CLOCKS_PER_SEC) / 4.0);
-  double dBlink2 = fabs(double(clock() % (CLOCKS_PER_SEC / 4) - (double(CLOCKS_PER_SEC) / 8.0))) / (double(CLOCKS_PER_SEC) / 8.0);
+  double dBlink = fabs(double(SDL_GetTicks() % 500 - 250.0)) / 250.0;
+  double dBlink2 = fabs(double(SDL_GetTicks() % 250 - 125.0)) / 125.0;
 
   // Draw Exit button
   double dColor = 1.0;
@@ -3272,8 +3272,8 @@ void CPakoon1View::UpdateTrackingTargetScreenPos(BTrackingTarget *pTarget) {
 //*************************************************************************************************
 //void CPakoon1View::DrawTrackingTargetOnScreen(BTrackingTarget *pTarget, CRect &rectWnd) {
 void CPakoon1View::DrawTrackingTargetOnScreen(BTrackingTarget *pTarget) {
-  clock_t clockNow = clock();
-  double dAlpha = fabs(double(clockNow % CLOCKS_PER_SEC) - (double(CLOCKS_PER_SEC) / 2.0)) / (double(CLOCKS_PER_SEC) / 2.0);
+  unsigned clockNow = SDL_GetTicks();
+  double dAlpha = fabs(double(clockNow % 1000) - 500.0) / 500.0;
   double dAlphaBase, dAlphaFluct;
   //double dDist = sqrt((rectWnd.Width() / 2.0 - pTarget->m_vScreenPos.m_dX) * (rectWnd.Width() / 2.0 - pTarget->m_vScreenPos.m_dX) +
   double dDist = sqrt((window_width / 2.0 - pTarget->m_vScreenPos.m_dX) * (window_width / 2.0 - pTarget->m_vScreenPos.m_dX) +
@@ -3444,7 +3444,7 @@ void CPakoon1View::DrawNavSat() {
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
   // Draw tracking beacons
-  clock_t clockNow = clock();
+  unsigned clockNow = SDL_GetTicks();
   BTrackingTarget *pTarget = m_game.GetSimulation()->m_targets;
   while(pTarget) {
     BVector vTmp(pTarget->m_vLoc.m_dX, pTarget->m_vLoc.m_dY, 0.0);
@@ -4280,8 +4280,8 @@ void CPakoon1View::OnKeyDownGame(int nChar, int nRepCnt, int nFlags) {
         bProcessed = true;
         if(!m_game.GetSimulation()->m_bLiftingUp) {
           if((m_game.GetSimulation()->GetVehicle()->m_orientation.m_vUp.m_dZ > 0.0) || 
-            (((clock() - m_game.m_clockLastLift) / CLOCKS_PER_SEC) < 6)) {
-            m_game.m_clockLastLift = clock();
+            (((SDL_GetTicks() - m_game.m_clockLastLift) / 1000.0) < 6)) {
+            m_game.m_clockLastLift = SDL_GetTicks();
             m_game.GetSimulation()->m_bLiftingUp = true;
             m_game.GetSimulation()->m_dLiftZ     = m_game.GetSimulation()->GetVehicle()->m_pBodyPoint[0].m_vLocation.m_dZ;
           }
@@ -4411,9 +4411,9 @@ void CPakoon1View::OnKeyDownGame(int nChar, int nRepCnt, int nFlags) {
           {
             bProcessed = true;
             // Check whether this is the second click
-            static clock_t clockPrev = 0;
-            clock_t clockNow = clock();
-            if((clockNow - clockPrev) < (CLOCKS_PER_SEC / 3)) {
+            static unsigned clockPrev = 0;
+            unsigned clockNow = SDL_GetTicks();
+            if((clockNow - clockPrev) < (1000.0 / 3)) {
               m_game.GetSimulation()->GetVehicle()->m_bWireframe = !m_game.GetSimulation()->GetVehicle()->m_bWireframe;
               // m_bWireframe = !m_bWireframe;
               // m_bCreateDLs = true;
@@ -4453,9 +4453,9 @@ void CPakoon1View::OnKeyDownGame(int nChar, int nRepCnt, int nFlags) {
             bProcessed = true;
 
             // Check whether this is the second click
-            static clock_t clockPrev = 0;
-            clock_t clockNow = clock();
-            if((clockNow - clockPrev) < (CLOCKS_PER_SEC / 3)) {
+            static unsigned clockPrev = 0;
+            unsigned clockNow = SDL_GetTicks();
+            if((clockNow - clockPrev) < (1000.0 / 3)) {
               BGame::FreezeSimulation(false);
               // Start Analyzer
               BGame::m_bAnalyzerMode = true;
@@ -4501,9 +4501,9 @@ void CPakoon1View::OnKeyDownGame(int nChar, int nRepCnt, int nFlags) {
             bProcessed = true;
 
             // Check whether this is the second click
-            static clock_t clockPrev = 0;
-            clock_t clockNow = clock();
-            if((clockNow - clockPrev) < (CLOCKS_PER_SEC / 3)) {
+            static unsigned clockPrev = 0;
+            unsigned clockNow = SDL_GetTicks();
+            if((clockNow - clockPrev) < (1000.0 / 3)) {
             BGame::FreezeSimulation(false);
               m_game.GetSceneEditor()->Activate();
               m_messages.Remove("sceneeditor");
@@ -4558,7 +4558,7 @@ void CPakoon1View::OnKeyDownGame(int nChar, int nRepCnt, int nFlags) {
 
   if(!bProcessed) {
     m_game.m_bShowHint = true;
-    m_game.m_clockHintStart = clock();
+    m_game.m_clockHintStart = SDL_GetTicks();
   }
   //CView::OnKeyDown(nChar, nRepCnt, nFlags);
 }
@@ -4572,7 +4572,7 @@ void CPakoon1View::OnKeyDownFueling(int nChar, int nRepCnt, int nFlags) {
       m_nMenuTime += BGame::ContinueSimulation();
       m_pKeyDownFunction = &CPakoon1View::OnKeyDownGame;
       m_game.m_bFueling = false;
-      m_game.m_clockLastFuelExit = clock();
+      m_game.m_clockLastFuelExit = SDL_GetTicks();
       BMessages::Show(50, "fuelexit", "Exit gas station (within 3 seconds)", 3);
       break;
     //case VK_RETURN:
@@ -4581,7 +4581,7 @@ void CPakoon1View::OnKeyDownFueling(int nChar, int nRepCnt, int nFlags) {
         m_nMenuTime += BGame::ContinueSimulation();
         m_pKeyDownFunction = &CPakoon1View::OnKeyDownGame;
         m_game.m_bFueling = false;
-        m_game.m_clockLastFuelExit = clock();
+        m_game.m_clockLastFuelExit = SDL_GetTicks();
         BMessages::Show(50, "fuelexit", "Exit gas station (within 3 seconds)", 3);
         
         BVehicle *pVehicle = BGame::GetSimulation()->GetVehicle();
@@ -4598,7 +4598,7 @@ void CPakoon1View::OnKeyDownFueling(int nChar, int nRepCnt, int nFlags) {
       } else {
         m_game.m_bFuelingInProgress = !m_game.m_bFuelingInProgress;
         if(m_game.m_bFuelingInProgress) {
-          m_game.m_clockFuelingStarted = clock();
+          m_game.m_clockFuelingStarted = SDL_GetTicks();
         }
       }
       break;
