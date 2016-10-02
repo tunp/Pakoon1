@@ -640,7 +640,7 @@ void CPakoon1View::OnDrawCurrentMenu() {
         // Init earthquake
         BGame::m_bEarthquakeFactor = 0.0;
         BGame::m_bEarthquakeActive = false;
-        BGame::m_bEarthquakeNextStart = (double)SDL_GetTicks() / 1000.0 + (60.0 + Random(60.0));
+        BGame::m_bEarthquakeNextStart = (double)SDL_GetTicks() + 1000 * (60.0 + Random(60.0));
 
         // Init wind particles
         if(BGame::m_bWindActive) {

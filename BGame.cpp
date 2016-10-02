@@ -861,14 +861,14 @@ void BGame::UpdateEarthquake() {
         m_bEarthquakeFactor = 0.0;
         m_bEarthquakeActive = false;
         // schedule next earthquake
-        m_bEarthquakeNextStart = clockNow + CLOCKS_PER_SEC * (60.0 + Random(120.0));
+        m_bEarthquakeNextStart = clockNow + 1000 * (60.0 + Random(120.0));
       } else {
         // Update factor
         m_bEarthquakeFactor = 0.0;
-        if((clockNow - m_bEarthquakeStarted) < CLOCKS_PER_SEC) {
-          m_bEarthquakeFactor = double(clockNow - m_bEarthquakeStarted) / double(CLOCKS_PER_SEC);
-        } else if((m_bEarthquakeWillEnd - clockNow) < CLOCKS_PER_SEC) {
-          m_bEarthquakeFactor = double(m_bEarthquakeWillEnd - clockNow) / double(CLOCKS_PER_SEC);
+        if((clockNow - m_bEarthquakeStarted) < 1000) {
+          m_bEarthquakeFactor = double(clockNow - m_bEarthquakeStarted) / 1000.0;
+        } else if((m_bEarthquakeWillEnd - clockNow) < 1000) {
+          m_bEarthquakeFactor = double(m_bEarthquakeWillEnd - clockNow) / 1000.0;
         } else {
           m_bEarthquakeFactor = 1.0;
         }
@@ -876,7 +876,7 @@ void BGame::UpdateEarthquake() {
     } else {
       // See if earthquake should be started
       if((clockNow >= m_bEarthquakeNextStart) || (m_bEarthquakeNextStart == 0)) {
-        m_bEarthquakeWillEnd = clockNow + CLOCKS_PER_SEC * (15.0 + Random(60.0));
+        m_bEarthquakeWillEnd = clockNow + 1000 * (15.0 + Random(60.0));
         m_bEarthquakeActive = true;
         BMessages::Show(50, "earthquake", "(Earthquake warning)", 999, false, 1, 0.3, 0.3, false, true);
         m_bEarthquakeFactor = 0.0;
