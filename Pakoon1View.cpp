@@ -12,7 +12,6 @@
 #include <sstream>
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
 
 using namespace std;
 
@@ -577,7 +576,11 @@ void CPakoon1View::OnDrawCurrentMenu() {
 
       // m_pThreadLoading = AfxBeginThread(TerrainLoadThread, 0, THREAD_PRIORITY_LOWEST);
       //m_pThreadLoading = AfxBeginThread(TerrainLoadThread, 0); // XP fix?
+#if defined(__EMSCRIPTEN__) && !defined(__EMSCRIPTEN_PTHREADS__)
+      TerrainLoadThread((void *)this);
+#else
       m_pThreadLoading = SDL_CreateThread(TerrainLoadThread, "TerrainLoad", (void *)this);
+#endif
     } else {
       if(BGame::m_bGameReadyToStart) {
 
@@ -2448,7 +2451,9 @@ void CPakoon1View::DrawVideo() {
   glEnable(GL_BLEND);
   glBlendFunc(GL_ONE, GL_ONE);
 
+#ifndef __EMSCRIPTEN__
   glActiveTextureARB(GL_TEXTURE0_ARB);
+#endif
   glEnable(GL_TEXTURE_2D);
 
   // OpenGLHelpers::SwitchToTexture(0);
