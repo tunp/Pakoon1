@@ -5580,7 +5580,115 @@ void CPakoon1View::OnLButtonUp(SDL_Point point) {
   g_bMouseButtonDown = false;
 }
 
+void CPakoon1View::OnFingerDown(float x, float y, int finger_id) {
+}
 
+void CPakoon1View::OnFingerUp(float x, float y, int finger_id) {
+  SDL_Point point;
+  point.x = x * window_width;
+  point.y = y * window_height;
+  HandleBUITouch(point);
+}
+
+void CPakoon1View::HandleBUITouch(SDL_Point point) {
+  if (BGame::m_bMenuMode) {
+    BUISelectionList *pList = BUI::GetActiveSelectionList();
+    if (!pList) {
+      pList = &BGame::m_pMenuCurrent->m_listMenu;
+    }
+    double dX = window_width / 2;
+    double dY = window_height / 2;
+
+    // Check if we have open submenu and need position of it
+    bool bScrolling = false;
+    string sTmp;
+    int nSelected = BGame::m_pMenuCurrent->m_listMenu.GetSelectedItem(sTmp);
+    if (nSelected != -1) {
+      BMenuItem *pMenuItem = &(BGame::m_pMenuCurrent->m_items[nSelected]);
+      if (pMenuItem->m_bOpen && pMenuItem->m_type == BMenuItem::STRING_FROM_LIST) {
+        double dCharHeight = BUI::TextRenderer()->GetCharHeight();
+        // Values from CPakoon1View::DrawMenu
+        dX += 35;
+        dY -= double(nSelected) * -dCharHeight + (dCharHeight * double(BGame::m_pMenuCurrent->m_nItems)) / 2.0;
+        bScrolling = true;
+      }
+    }
+
+    bool menu_item_pressed = pList->OnFingerUp(point.x, point.y, dX, dY, bScrolling);
+    if (menu_item_pressed) {
+      ReturnPressedOnCurrentMenu();
+    } else {
+      CancelPressedOnCurrentMenu();
+    }
+
+    nSelected = BGame::m_pMenuCurrent->m_listMenu.GetSelectedItem(sTmp);
+    if(nSelected != -1) {
+      BMenuItem *pMenuItem = &(BGame::m_pMenuCurrent->m_items[nSelected]);
+      if (pMenuItem->m_bOpen && pMenuItem->m_type == BMenuItem::SLIDER) {
+        *BUI::m_pnSliderValue = point.x - dX - 10;
+        if (*BUI::m_pnSliderValue < 0) {
+          *BUI::m_pnSliderValue = 0;
+        }
+        if (*BUI::m_pnSliderValue > 100) {
+          *BUI::m_pnSliderValue = 100;
+        }
+
+        // closing slider as no need to keep it open
+        ReturnPressedOnCurrentMenu();
+      }
+    }
+  } else {
+    // Using values from OnDrawGame
+    if (m_game.m_bShowGameMenu) {
+      double dHeight = 256.0 / 5.0;
+      int i = (point.y - (window_height / 2.0 - 128)) / dHeight;
+      m_game.m_nGameMenuSelection = 5 - i;
+      OnKeyDownGameMenu(SDLK_RETURN, 0, 0);
+    } else if (m_game.m_bShowCancelQuestion) {
+      int win_w_center = window_width / 2.0 - 235.0 / 2.0 + 70.0;
+      int win_h_center = window_height / 2.0 + 50 + 50;
+      if (win_h_center - 37.0 < point.y && win_h_center > point.y) {
+        if (win_w_center + (0 - 40.0) < point.x && win_w_center + (80.0 - 40.0) > point.x) {
+          m_game.m_nYesNoSelection = 1;
+          OnKeyDownCancelQuestion(SDLK_RETURN, 0, 0);
+        }
+        if (win_w_center + (0 + 40.0) < point.x && win_w_center + (86.0 + 40.0) > point.x) {
+          m_game.m_nYesNoSelection = 2;
+          OnKeyDownCancelQuestion(SDLK_RETURN, 0, 0);
+        }
+      }
+    } else if (m_game.m_bFueling) {
+      double dCharHeight = BUI::TextRenderer()->GetCharHeight();
+      double dCharWidth  = BUI::TextRenderer()->GetCharWidth();
+      int win_w_center = window_width / 2.0;
+      int win_h_center = window_height / 2.0 + dCharHeight * 1.5 + 54.0 / 2.0;
+
+      if (
+          win_w_center - 120.0 / 2.0 < point.x && win_w_center + 120.0 / 2.0 > point.x
+          && win_h_center - 54.0 / 2.0 < point.y && win_h_center + 54.0 / 2.0 > point.y
+      ) {
+        m_game.m_nFuelSelect = 2;
+        OnKeyDownFueling(SDLK_RETURN, 0, 0);
+      }
+
+      win_h_center = window_height / 2.0 - dCharHeight * 2.5 - 128.0 / 2.0;
+      if (win_h_center - 128.0 / 2.0 < point.y && win_h_center + 128.0 / 2.0 > point.y) {
+        win_w_center = window_width / 2.0 - 70.0;
+        if (win_w_center - 128.0 / 2.0 < point.x && win_w_center + 128.0 / 2.0 > point.x) {
+          m_game.m_nFuelSelect = 0;
+          OnKeyDownFueling(SDLK_RETURN, 0, 0);
+        }
+        win_w_center = window_width / 2.0 + 70.0;
+        if (win_w_center - 128.0 / 2.0 < point.x && win_w_center + 128.0 / 2.0 > point.x) {
+          m_game.m_nFuelSelect = 1;
+          OnKeyDownFueling(SDLK_RETURN, 0, 0);
+        }
+      }
+    } else if (m_game.m_bShowQuickHelp || m_game.m_bPickupStartInProgress || m_game.m_bDeliveryStartInProgress) {
+      OnKeyDownGame(SDLK_ESCAPE, 0, 0);
+    }
+  }
+}
 
 //*************************************************************************************************
 //void CPakoon1View::DrawMouseCursor(CRect &rectWnd) {

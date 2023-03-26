@@ -66,6 +66,7 @@ public:
               double dBlue = 1,
               bool bScrolling = true,
               bool bWithBackground = false);
+  bool OnFingerUp(float x, float y, double dX, double dY, bool bScrolling);
 };
 
 

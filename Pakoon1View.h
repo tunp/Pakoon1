@@ -231,6 +231,10 @@ public:
   void OnLButtonDown(SDL_Point point);
   //afx_msg void OnLButtonUp(int nFlags, CPoint point);
   void OnLButtonUp(SDL_Point point);
+  void OnFingerDown(float x, float y, int finger_id);
+  void OnFingerUp(float x, float y, int finger_id);
+  void HandleBUITouch(SDL_Point point);
+
   //}}AFX_MSG
   //DECLARE_MESSAGE_MAP()
   
