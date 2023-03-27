@@ -2058,6 +2058,10 @@ void CPakoon1View::OnDrawGame() {
     if(BGame::m_bDashboard) {
       //DrawDashboard(pDC);
       DrawDashboard();
+#ifdef __EMSCRIPTEN__
+      // gl4es seems to need this or all ground is green
+      glColor4f(1.0, 1.0, 1.0, 1);
+#endif
     }
     if(BGame::m_bService) {
       //DrawServiceWnd(pDC);
