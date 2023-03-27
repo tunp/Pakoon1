@@ -24,6 +24,7 @@ using namespace std;
 #include "BGame.h"
 #include "BMessages.h"
 #include "Pakoon1Doc.h"
+#include "NewDialogs/DlgOnScreenKbd.h"
 
 class BMenuItemOBSOLETE {
 public:
@@ -234,6 +235,16 @@ public:
   void OnFingerDown(float x, float y, int finger_id);
   void OnFingerUp(float x, float y, int finger_id);
   void HandleBUITouch(SDL_Point point);
+  bool touch_seen;
+
+  vector<Dialog *> dialogs;
+
+  void drawDialogs();
+
+  template<typename D> vector<Dialog *>::iterator getFirstDialogOfType();
+  template<typename D> bool isDialogOpen();
+
+  void drawSurface(double x1, double y1, double x2, double y2, GLenum format, SDL_Surface *surface);
 
   //}}AFX_MSG
   //DECLARE_MESSAGE_MAP()

@@ -96,6 +96,7 @@ CPakoon1View::CPakoon1View() {
   exit = false;
   mouse_x = 0;
   mouse_y = 0;
+  touch_seen = false;
 }
 
 CPakoon1View::~CPakoon1View() {
@@ -1612,6 +1613,9 @@ void CPakoon1View::ReturnPressedOnCurrentMenu() {
     //ShowCursor(FALSE);
     SDL_ShowCursor(0);
     //Invalidate();
+    if (touch_seen && !isDialogOpen<DlgOnScreenKbd *>()) {
+      dialogs.push_back(new DlgOnScreenKbd(this));
+    }
   }
 }
 
@@ -2426,6 +2430,8 @@ void CPakoon1View::OnDrawGame() {
       BUI::TextRenderer()->StopRenderingText();
     }
   }
+
+  drawDialogs();
 
   //SwapBuffers(pDC->GetSafeHdc());
   SDL_GL_SwapWindow(window);
@@ -5581,13 +5587,118 @@ void CPakoon1View::OnLButtonUp(SDL_Point point) {
 }
 
 void CPakoon1View::OnFingerDown(float x, float y, int finger_id) {
+  if (dialogs.size() > 0) {
+    vector<Dialog *>::iterator i = --dialogs.end();
+    (*i)->onFingerDown(x * window_width - (*i)->getPos()->x, y * window_height - (*i)->getPos()->y, finger_id);
+  } else if (!isDialogOpen<DlgOnScreenKbd *>() && m_pDrawFunction == &CPakoon1View::OnDrawGame) {
+    dialogs.push_back(new DlgOnScreenKbd(this));
+  }
+  touch_seen = true;
 }
 
 void CPakoon1View::OnFingerUp(float x, float y, int finger_id) {
+  if (dialogs.size() > 0) {
+    vector<Dialog *>::iterator i = --dialogs.end();
+    (*i)->onFingerUp(x * window_width - (*i)->getPos()->x, y * window_height - (*i)->getPos()->y, finger_id);
+  }
+  //BGame::m_pMenuCurrent->m_listMenu.OnFingerUp(x, y, window_width / 2, window_height / 2);
   SDL_Point point;
   point.x = x * window_width;
   point.y = y * window_height;
   HandleBUITouch(point);
+}
+
+void CPakoon1View::drawDialogs() {
+  for (int x = 0; x < dialogs.size(); x++) {
+    if (dialogs[x]->isExit()) {
+      delete dialogs[x];
+      dialogs[x] = NULL;
+      dialogs.erase(dialogs.begin()+x);
+      x--;
+      /*if (!isDialogOpen<DlgMainMenu *>() && m_pDrawFunction == &CPakoon1View::OnDrawGame) {
+        SDL_ShowCursor(SDL_DISABLE);
+      }*/
+    } else {
+      SDL_Surface *surface = dialogs[x]->getSurface();
+      SDL_Rect *r = dialogs[x]->getPos();
+      if (dialogs[x]->isDefaultPos()) {
+        r->x = window_width / 2 - surface->w / 2;
+        r->y = window_height / 2 - surface->h / 2;
+      }
+      double x1 = r->x;
+      double y1 = r->y;
+      double x2 = r->x + r->w;
+      double y2 = r->y + r->h;
+
+      drawSurface(x1, y1, x2, y2, GL_RGBA, surface);
+    }
+  }
+}
+
+template<typename D> vector<Dialog *>::iterator CPakoon1View::getFirstDialogOfType() {
+  vector<Dialog *>::iterator i;
+  for (i = dialogs.begin(); i != dialogs.end(); i++) {
+    if (dynamic_cast<D>(*i)) {
+      break;
+    }
+  }
+  return i;
+}
+
+template<typename D> bool CPakoon1View::isDialogOpen() {
+  return getFirstDialogOfType<D>() != dialogs.end();
+}
+
+void CPakoon1View::drawSurface(double x1, double y1, double x2, double y2, GLenum format, SDL_Surface *surface) {
+  glPushAttrib(GL_ENABLE_BIT | GL_LIGHTING_BIT | GL_FOG_BIT | GL_DEPTH_BUFFER_BIT | GL_CURRENT_BIT | GL_COLOR_BUFFER_BIT | GL_POLYGON_BIT | GL_STENCIL_BUFFER_BIT);
+  glViewport(0, 0, (GLint) window_width, (GLint) window_height);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glOrtho(0, window_width, window_height, 0, 0, 1);
+  glDisable(GL_DEPTH_TEST);
+  glDisable(GL_FOG);
+  GLint front_face;
+  glGetIntegerv(GL_FRONT_FACE, &front_face);
+  glFrontFace(GL_CW);
+  glDisable(GL_LIGHTING);
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  glClearColor(0.0, 0.0, 0.0, 1.0);
+  glColor4f(1.0, 1.0, 1.0, 1);
+
+  //glClear(GL_COLOR_BUFFER_BIT);
+  glEnable(GL_TEXTURE_2D);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  OpenGLHelpers::SetColorFull(1, 1, 1, 1);
+
+  unsigned short row_data_width = surface->pitch / surface->format->BytesPerPixel;
+  GLuint texture[1];
+  glGenTextures(1, &texture[0]);
+  glBindTexture(GL_TEXTURE_2D, texture[0]);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, row_data_width, surface->h, 0, format, GL_UNSIGNED_BYTE, surface->pixels);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+  glBindTexture(GL_TEXTURE_2D, texture[0]);
+
+  glBegin(GL_QUADS);
+  //glColor3f(0.0, 0.0, 0.0);
+  glTexCoord2f(0.0f, 0.0f);
+  glVertex2f(x1, y1);
+  glTexCoord2f((float) surface->w / row_data_width, 0.0f);
+  glVertex2f(x2, y1);
+  glTexCoord2f((float) surface->w / row_data_width, 1.0f);
+  glVertex2f(x2, y2);
+  glTexCoord2f(0.0f, 1.0f);
+  glVertex2f(x1, y2);
+  glEnd();
+
+  glDeleteTextures(1, &texture[0]);
+
+  glFrontFace(front_face);
+  glPopAttrib();
 }
 
 void CPakoon1View::HandleBUITouch(SDL_Point point) {

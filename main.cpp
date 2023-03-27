@@ -1,5 +1,6 @@
 //g++ main.cpp Pakoon1View.cpp Pakoon1Doc.cpp BaseClasses.cpp BGame.cpp BMessages.cpp BPlayer.cpp BTerrain.cpp BSimulation.cpp BGround.cpp BScene.cpp BSceneEditor.cpp BTextures.cpp BObject.cpp BVehicle.cpp BCamera.cpp BTextRenderer.cpp BCmdModule.cpp BServiceWnd.cpp BMenu.cpp BUI.cpp BNavSatWnd.cpp OpenGLHelpers.cpp FileIOHelpers.cpp Settings.cpp ControllerModule.cpp SoundModule.cpp HeightMap.cpp PerlinNoise.cpp PakoonPhysicsEngine/PakoonPhysicsEngine.cpp StringTools.cpp -o Pakoon -lSDL2 -lGL -lGLU -lvorbisfile
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 #include "Pakoon1View.h"
 
@@ -70,6 +71,12 @@ int main(int argc, char **argv) {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		cout << "SDL init failed" << endl;
 	}
+  
+  if(TTF_Init() == -1) {
+    cout << "TTF_Init: " << TTF_GetError() << endl;
+    return 1;
+  }
+
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1); 
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16); 
 	
@@ -99,6 +106,7 @@ int main(int argc, char **argv) {
 	while (!pakoon1.isExit()) {
     mainLoop(&pakoon1);
   }
+  TTF_Quit();
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
