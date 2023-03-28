@@ -5605,7 +5605,6 @@ void CPakoon1View::OnFingerUp(float x, float y, int finger_id) {
     vector<Dialog *>::iterator i = --dialogs.end();
     (*i)->onFingerUp(x * window_width - (*i)->getPos()->x, y * window_height - (*i)->getPos()->y, finger_id);
   }
-  //BGame::m_pMenuCurrent->m_listMenu.OnFingerUp(x, y, window_width / 2, window_height / 2);
   SDL_Point point;
   point.x = x * window_width;
   point.y = y * window_height;
@@ -5619,9 +5618,6 @@ void CPakoon1View::drawDialogs() {
       dialogs[x] = NULL;
       dialogs.erase(dialogs.begin()+x);
       x--;
-      /*if (!isDialogOpen<DlgMainMenu *>() && m_pDrawFunction == &CPakoon1View::OnDrawGame) {
-        SDL_ShowCursor(SDL_DISABLE);
-      }*/
     } else {
       SDL_Surface *surface = dialogs[x]->getSurface();
       SDL_Rect *r = dialogs[x]->getPos();

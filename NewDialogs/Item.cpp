@@ -1,6 +1,3 @@
-#ifndef ITEM_H
-#define ITE_H
-
 #include <SDL2/SDL.h>
 
 #include "Item.h"
@@ -65,5 +62,3 @@ bool Item::needsRedraw() {
 void Item::drawDone() {
   needs_redraw = false;
 }
-
-#endif
